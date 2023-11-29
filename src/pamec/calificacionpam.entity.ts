@@ -12,17 +12,15 @@ export class CalificacionpamEntity {
     @PrimaryGeneratedColumn('increment')
     cal_id: number;
 
-    @Column({})
-    cal_nota: number;
+    @Column({ type: 'int', nullable: true })
+    cal_nota: number | null;
 
-    @Column({ type: 'varchar', length: 11, nullable: false, unique: false })
+
+    @Column({ type: 'varchar', length: 11, nullable: true, unique: false })
     cal_aplica: string;
 
-    @Column({ type: 'varchar', length: 255, nullable: false, unique: false })
+    @Column({ type: 'varchar', length: 255, nullable: true, unique: false })
     cal_observaciones: string;
-
-    @Column({ type: 'varchar', length: 10, nullable: false, default: true })
-    cal_asignado: string;
 
 
     @ManyToOne(type => CriteriopamEntity, calificacion_pam => calificacion_pam.criterio_calificacionpam)

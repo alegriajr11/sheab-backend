@@ -1064,7 +1064,17 @@ export class AuditoriaRegistroService {
         act_id: number,
         anio: string,
     ): Promise<void> {
-        const details = `El usuario ${usu_nombre} ${usu_apellido} ha asignado una calificacion Pamec (${cal_nota}) al criterio "${cri_nombre}" del acta No. ${act_id} del año ${anio}`;
+        if (!cal_nota) {
+            const details = `El usuario ${usu_nombre} ${usu_apellido} ha asignado una calificacion al Pamec de (NO APLICA) al criterio "${cri_nombre}" del acta No. ${act_id} del año ${anio}`;
+            await this.logActivity(
+                usu_nombre,
+                usu_apellido,
+                'Creación Calificacion Pamec',
+                details,
+                direccionIp,
+            );
+        }
+        const details = `El usuario ${usu_nombre} ${usu_apellido} ha asignado una calificacion al Pamec con nota de: (${cal_nota}) al criterio "${cri_nombre}" del acta No. ${act_id} del año ${anio}`;
         await this.logActivity(
             usu_nombre,
             usu_apellido,

@@ -117,7 +117,7 @@ export class CalificacionpamecService {
             acta_idInd,
             year,
         );
-        return new MessageDto('La calificacionha sido Creada');
+        return new MessageDto('La calificacion ha sido Creada');
     }
 
     //ACTUALIZACION CALIFICACION PAMEC

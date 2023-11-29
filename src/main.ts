@@ -12,7 +12,6 @@ async function bootstrap() {
   // Configuración del middleware de request-ip
   app.use(requestIp.mw());
 
-  app.enableCors();
   // Obtener el puerto de la variable de entorno proporcionada por Heroku
   const port = process.env.PORT || 3000; // Usar 3000 si la variable de entorno no está definida
 
