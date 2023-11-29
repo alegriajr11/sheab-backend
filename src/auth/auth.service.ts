@@ -92,7 +92,7 @@ export class AuthService {
                 throw new UnauthorizedException(new MessageDto('Acceso Denegado Comunicarse con el Administrador'));
             }
 
-            //await this.auditoria_registroService.logLogin(payload.usu_nombre, payload.usu_apellido, direccionIp);
+            await this.auditoria_registroService.logLogin(payload.usu_nombre, payload.usu_apellido, direccionIp);
 
             return { token };
         } catch (error) {
