@@ -13,8 +13,9 @@ async function bootstrap() {
   app.use(requestIp.mw());
 
   app.enableCors();
-  // Server Port
-  const port = +configService.get<number>(SERVER_PORT) || 3000;
+  // Obtener el puerto de la variable de entorno proporcionada por Heroku
+  const port = process.env.PORT || 3000; // Usar 3000 si la variable de entorno no está definida
+
   await app.listen(port);
 }
 bootstrap();
