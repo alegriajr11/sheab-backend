@@ -177,7 +177,11 @@ import { BackupBdModule } from './backup_bd/backup_bd.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        url: configService.get<string>('JAWSDB_URL'),
+        host: configService.get<string>(DB_HOST),
+        port: +configService.get<number>(DB_PORT),
+        username: configService.get<string>(DB_USER),
+        password: configService.get<string>(DB_PASSWORD),
+        database: configService.get<string>(DB_DATABASE),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: false
