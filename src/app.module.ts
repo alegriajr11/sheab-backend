@@ -161,6 +161,7 @@ import { ControlarImagenesModule } from './controlar_imagenes/controlar_imagenes
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path'; // Importa join desde el módulo path
 import { BackupBdModule } from './backup_bd/backup_bd.module';
+import { DivsCreadosSicModule } from './sic/divs-creados-sic/divs-creados-sic.module';
 
 
 @Module({
@@ -185,7 +186,6 @@ import { BackupBdModule } from './backup_bd/backup_bd.module';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: false
-      
       }),
       inject: [ConfigService],
     }),
@@ -302,6 +302,7 @@ import { BackupBdModule } from './backup_bd/backup_bd.module';
     RequisitosCondicionesHabilitacionModule,
     ControlarImagenesModule,
     BackupBdModule,
+    DivsCreadosSicModule,
     
 
 

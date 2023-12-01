@@ -7,6 +7,7 @@ import { ActaSicPdfEntity } from "src/generarpdf/sic/sic-acta/sic-acta-pdf.entit
 import { DominioEntity } from "./dominio.entity";
 import { CumplimientoEstandarSicEntity } from "./cumplimientoestandar.entity";
 import { CumplimientoSicEntity } from "./cumplimientosic.entity";
+import { DivCreadoSicEntity } from "./divs-creados-sic/div-creado-sic.entity";
 
 
 @Entity({ name: 'evaluacionsic' })
@@ -36,4 +37,8 @@ export class EvaluacionSicEntity {
     //Relacion Uno a Muchos EVALUACION SIC - CUMPLIMIENTO_ESTANDAR_SIC 
     @OneToMany(type => CumplimientoEstandarSicEntity, cumplimineto_estandar => cumplimineto_estandar.cumplimiento_eva_sic)
     eva_sic_cumplimiento: CumplimientoEstandarSicEntity[];
+    
+    //Relacion Uno a Muchos EVALUACION SIC - CUMPLIMIENTO_ESTANDAR_SIC 
+    @OneToMany(type => DivCreadoSicEntity, div_creado_sic => div_creado_sic.div_creado)
+    evaluacion_divs_creados: DivCreadoSicEntity[];
 }
