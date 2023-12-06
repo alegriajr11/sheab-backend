@@ -12,6 +12,10 @@ export class DivCreadoSicDto {
     @IsString()
     div_indicador: string
 
+    div_id_dominio: number
+
+    div_id_indicador: number
+
     @IsObject({
         message: 'La evaluacion no puede estar vacia'
     })

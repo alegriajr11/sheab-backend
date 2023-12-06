@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DivCreadoSicEntity } from './div-creado-sic.entity';
 import { DivCreadoSicRepository } from './div-creado-sic.repository';
@@ -28,19 +28,30 @@ export class DivsCreadosSicService {
                 throw new Error('La evaluación no ha sido creada');
             }
 
+            const divs = await this.div_creadoSicRepository.createQueryBuilder('divs')
+            .select('divs')
+            .innerJoinAndSelect('divs.div_creado_eva', 'div_creado_eva')
+            .where('div_creado_eva.eva_id = :id_eva', {id_eva: dto.div_creado_eva.eva_id})
+            .andWhere('divs.div_id_dominio = :id_dominio', {id_dominio: dto.div_id_dominio})
+            .andWhere('divs.div_id_indicador = :id_indicador', {id_indicador: dto.div_id_indicador})
+            .getOne()
+            
+            if(divs){
+                throw new Error('El dominio e indicador seleccionado ya fueron agregados a la evaluación');
+            }
+
             // CREAMOS EL DTO DEL DIV
             const div_sic = await this.div_creadoSicRepository.create(dto);
 
             // ASIGNAMOS LA FORANEA DE CUMPLIMIENTO CON EVALUACIÓN_SIC CREADA
-            div_sic.div_creado = evaluacion_sic;
+            div_sic.div_creado_eva = evaluacion_sic;
 
             // GUARDAMOS EL DIV A LA BASE DE DATOS
             await this.div_creadoSicRepository.save(div_sic);
 
 
-            return new MessageDto('Asignado');
+            return new MessageDto('Indicador Asignado');
         } catch (error) {
-            // Manejo de un error.
             console.log(error)
             throw new InternalServerErrorException(new MessageDto(error.message));
         }
