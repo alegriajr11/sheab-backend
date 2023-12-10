@@ -23,6 +23,6 @@ export class DivCreadoSicEntity {
 
     //Relacion UNO a MUCHOS CRITERIOS SIC - CUMPLIMIENTOSIC
     @ManyToOne(type => EvaluacionSicEntity, evaluacion_sic => evaluacion_sic.evaluacion_divs_creados)
-    div_creado: EvaluacionSicEntity;
+    div_creado_eva: EvaluacionSicEntity;
 
 }

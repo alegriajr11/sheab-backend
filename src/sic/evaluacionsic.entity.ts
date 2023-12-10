@@ -39,6 +39,6 @@ export class EvaluacionSicEntity {
     eva_sic_cumplimiento: CumplimientoEstandarSicEntity[];
     
     //Relacion Uno a Muchos EVALUACION SIC - CUMPLIMIENTO_ESTANDAR_SIC 
-    @OneToMany(type => DivCreadoSicEntity, div_creado_sic => div_creado_sic.div_creado)
+    @OneToMany(type => DivCreadoSicEntity, div_creado_sic => div_creado_sic.div_creado_eva)
     evaluacion_divs_creados: DivCreadoSicEntity[];
 }
