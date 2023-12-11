@@ -37,6 +37,6 @@ export class CumplimientoTodosServiciosController {
     @UsePipes(new ValidationPipe({ whitelist: true, transformOptions: { enableImplicitConversion: true } }))
     @Put(':id')
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoServiciosDto) {
-        return await this.cumplimientoTodosServiciosService.updateCapacidad(id, dto);
+        return await this.cumplimientoTodosServiciosService.updateCumplimiento(id, dto);
     }
 }

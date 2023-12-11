@@ -59,7 +59,7 @@ export class CumplimientoTodosServiciosService {
         cumplimiento.cump_eva_todos_servi = evaluacion
         //GUARDAR LOS DATOS EN LA BD
         await this.cumplimientoServiciosRepository.save(cumplimiento)
-        return new MessageDto('El cumplimiento ha sido Creada Correctamente');
+        return new MessageDto('El cumplimiento ha sido Creado Correctamente');
     }
     
     
@@ -72,17 +72,14 @@ export class CumplimientoTodosServiciosService {
     }
     
     //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
-    async updateCapacidad(id: number, dto: CumplimientoServiciosDto): Promise<any> {
+    async updateCumplimiento(id: number, dto: CumplimientoServiciosDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
             throw new NotFoundException(new MessageDto('El cumplimiento no existe'))
         }
         dto.cumps_cumple ? cumplimiento.cumps_cumple = dto.cumps_cumple : cumplimiento.cumps_cumple = cumplimiento.cumps_cumple;
         dto.cumps_hallazgo ? cumplimiento.cumps_hallazgo = dto.cumps_hallazgo : cumplimiento.cumps_hallazgo = cumplimiento.cumps_hallazgo;
-        dto.cumps_accion ? cumplimiento.cumps_accion = dto.cumps_accion : cumplimiento.cumps_accion = cumplimiento.cumps_accion;
-        dto.cumps_responsable ? cumplimiento.cumps_responsable = dto.cumps_responsable : cumplimiento.cumps_responsable = cumplimiento.cumps_responsable;
-        dto.cumps_fecha_limite ? cumplimiento.cumps_fecha_limite = dto.cumps_fecha_limite : cumplimiento.cumps_fecha_limite = cumplimiento.cumps_fecha_limite;
-        
+
         await this.cumplimientoServiciosRepository.save(cumplimiento);
     
         return new MessageDto(`El cumplimiento ha sido Actualizado`);

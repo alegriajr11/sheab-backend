@@ -1,20 +1,19 @@
+import { IsNumber, IsOptional, IsString } from "class-validator";
 import { IsNotBlank } from "src/decorators/is-not-blank.decorator";
 
 export class CumplimientoServiciosDto {
     
     @IsNotBlank()
+    @IsString()
     cumps_cumple: string;
 
-    @IsNotBlank()
+    @IsOptional()
+    @IsString()
     cumps_hallazgo: string;
 
-    @IsNotBlank()
-    cumps_accion: string;
+    @IsNumber()
+    cris_id: number
 
-    @IsNotBlank()
-    cumps_responsable: string;
-
-    @IsNotBlank()
-    cumps_fecha_limite: string;
-
+    @IsNumber()
+    eva_ver_id: number
 }

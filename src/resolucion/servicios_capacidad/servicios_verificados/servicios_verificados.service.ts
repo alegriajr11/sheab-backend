@@ -28,7 +28,9 @@ export class ServiciosVerificadosService {
             .innerJoinAndSelect('servicio.grup_evaluacion', 'grup_evaluacion')
             .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres: id })
             .getMany()
-        if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        if (servicio_prestador.length === 0){
+            throw new NotFoundException(new MessageDto('El prestador no tiene servicios verificados'))
+        } 
         return servicio_prestador
     }
 
