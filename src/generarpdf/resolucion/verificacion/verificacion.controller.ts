@@ -46,6 +46,15 @@ export class VerificacionController {
 		return await this.acta_verificacion_Service.listarTodosLosUsuariosPorIdDeActa(id);
 	}
 
+	//SOLICITUD LISTAR UN USUARIO ASIGNADO DEL ACTA POR ID DE ACTA Y ID USUARIO
+	//@UseGuards(JwtAuthGuard)
+	@Get('/lista/usuario/acta/verificacion')
+	async listaUsuarioAsignado(
+		@Query('act_id') act_id: number,
+        @Query('usu_id') usu_id: number,) {
+		return await this.acta_verificacion_Service.listaUsuarioPorIdDeActa(act_id, usu_id);
+	}
+
 	//CREAR ACTA - VERIFICACION
 	@Post()
 	async create(@Body() payloads: {

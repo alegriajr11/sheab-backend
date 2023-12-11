@@ -61,6 +61,27 @@ export class VerificacionService {
 		}
 	}
 
+	//LISTAR UN USUARIO QUE TIENEN ASIGNADA ACTA POR ID DE ACTA Y ID DE USUARIO
+	async listaUsuarioPorIdDeActa(id_acta: number, usu_id: number): Promise<UsuarioEntity> {
+		try {
+			const acta_usuario = await this.usuarioRepository
+				.createQueryBuilder('usuario')
+				.innerJoinAndSelect('usuario.usuario_verificacion','usuario_verificacion')
+				.where('usuario_verificacion.id = :id',{ id: id_acta })
+				.andWhere('usuario.usu_id = :id_usu', {id_usu: usu_id})
+				.getOne()
+
+				if(!acta_usuario){
+					throw new NotFoundException(new MessageDto('No Hay Usuario Asignado'));
+				}
+
+			return acta_usuario;
+		} catch (error) {
+			console.error('Error al obtener los usuarios del acta asignada:', error);
+			return undefined;
+		}
+	}
+
 
 	//LISTAR TODAS LAS ACTAS DE VERIFICACION
 	async getAllActasVerificacion(tokenDto: string): Promise<ActaVerificacionEntity[]> {
