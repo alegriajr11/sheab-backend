@@ -82,6 +82,7 @@ export class VerificacionService {
 		}
 	}
 
+	//LISTAR LOS USUARIOS DISPONIBLES PARA ASIGNAR
 
 	//LISTAR TODAS LAS ACTAS DE VERIFICACION
 	async getAllActasVerificacion(tokenDto: string): Promise<ActaVerificacionEntity[]> {
@@ -228,7 +229,6 @@ export class VerificacionService {
 			return undefined;
 		}
 	}
-
 
 
 

@@ -9,6 +9,7 @@ import { UsuarioDto } from './dto/usuario.dto';
 import { UsuarioService } from './usuario.service';
 import { TokenDto } from 'src/auth/dto/token.dto';
 import { NuevoUsuarioDto } from 'src/auth/dto/nuevo-usuario.dto';
+import { UsuarioEntity } from './usuario.entity';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -39,8 +40,12 @@ export class UsuarioController {
 
     /*LISTANDO USUARIOS POR ROL*/
     @Get('lista/rol')
-    async getAllUserRol(@Query('rol_nombre') rol_nombre: string) {
-        return await this.usuarioService.getallUsersRol(rol_nombre)
+    async getAllUserRol(
+        @Query('rol_nombre') rol_nombre: string,
+        @Query('usuariosSeleccionadosIds') usuariosSeleccionadosIds?: string,
+    ): Promise<UsuarioEntity[]> {
+        const parsedIds = usuariosSeleccionadosIds ? usuariosSeleccionadosIds.split(',').map(id => parseInt(id, 10)) : [];
+        return await this.usuarioService.getallUsersRol(rol_nombre, parsedIds);
     }
 
     /*LISTANDO USUARIOS CONTADOR Y SOLO ACTIVOS*/

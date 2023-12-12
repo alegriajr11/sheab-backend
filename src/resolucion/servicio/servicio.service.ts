@@ -24,6 +24,7 @@ export class ServicioService {
         return criterio;
     }
 
+
     async create(id: number, dto: ServiciosnDto): Promise<any> {
         const evaluacion = await this.grupoEvaluacionRepository.findOne({ where: { id: id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('El Estandar no ha sido creado'))
@@ -36,6 +37,7 @@ export class ServicioService {
         return new MessageDto('El servicio ha sido Creado Correctamente');
     }
 
+    
     //ENCONTRAR POR ID - CRITERIO PRETANSFUNCIONAL
     async findById(id: number): Promise<ServicioEntity> {
         const servicio = await this.servicioRepository.findOne({ where: { id } });
