@@ -15,25 +15,15 @@ export class CumplimientoServiciosEntity {
     @Column({ type: 'varchar', length: 10, nullable: false, unique: false })
     cumps_cumple: string;
 
-    @Column({ type: 'varchar', length: 60, nullable: false, unique: false })
+    @Column({ type: 'varchar', length: 60, nullable: true, unique: false })
     cumps_hallazgo: string;
 
-    @Column({ type: 'varchar', length: 60, nullable: false, unique: false })
-    cumps_accion: string;
 
-    @Column({ type: 'varchar', length: 200, nullable: false, unique: false })
-    cumps_responsable: string;
-
-    @Column({ type: 'date', nullable: false, unique: false })
-    cumps_fecha_limite: string; 
-    
-
-    @OneToOne(() => Criterio_servicios)
+    @ManyToOne(() => Criterio_servicios)
     @JoinColumn()
     criterio_servicios: Criterio_servicios
 
-    //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC
-    @ManyToOne(type => EvaluacionResVerificacionEntity, evasic => evasic.eva_todos_servi_cumplimiento)
+    //Relacion Muchos a CUMPLIMIENTO - EVALUACION-TODOS-SERVICIOS
+    @ManyToOne(type => EvaluacionResVerificacionEntity, eva_servicios => eva_servicios.eva_todos_servi_cumplimiento)
     cump_eva_todos_servi: EvaluacionResVerificacionEntity
-
 }

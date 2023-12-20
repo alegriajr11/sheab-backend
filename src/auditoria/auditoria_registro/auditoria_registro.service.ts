@@ -243,6 +243,29 @@ export class AuditoriaRegistroService {
         );
     }
 
+
+    //CONTROLAR EL CUMPLIMIENTO ACTA VERIFICACION ASIGNADO POR EL USUARIO
+    //CONTROLAR LA CREACIÓN DE CUMPLIMIENTO TODOS LOS SERVICIOS
+    async logCreateCumplimientoTodosServicios(
+        usu_nombre: string,
+        usu_apellido: string,
+        direccionIp: string,
+        cumpl_cumple: string,
+        cri_nombre: string,
+        nombre_estandar: string,
+        act_id: number,
+        anio: string,
+    ): Promise<void> {
+        const details = `El usuario ${usu_nombre} ${usu_apellido} ha asignado un Cumplimiento: (${cumpl_cumple}) del criterio "${cri_nombre}" del acta No. ${act_id} del año ${anio} perteneciente al estandar de: ${nombre_estandar}`;
+        await this.logActivity(
+            usu_nombre,
+            usu_apellido,
+            'Cumplimiento Resolucion 3100',
+            details,
+            direccionIp,
+        );
+    }
+
     /*ACTAS - SP*/
     //CONTROLAR LA CREACIÓN DE  SP INDEPENDIENTE ACTA
     async logCreateActaSpIndep(

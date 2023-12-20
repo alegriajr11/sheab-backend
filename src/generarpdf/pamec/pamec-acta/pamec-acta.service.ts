@@ -47,7 +47,7 @@ export class PamecActaService {
         const indep = await this.actaPamecRepository.createQueryBuilder('acta')
             .select(['acta'])
             .getMany()
-        if (indep.length === 0) throw new NotFoundException(new MessageDto('No hay Evaluaciones Realiazadas en la lista'))
+        if (indep.length === 0) throw new NotFoundException(new MessageDto('No hay Evaluaciones Realizadas en la lista'))
         return indep;
     }
 

@@ -223,12 +223,12 @@ export class EvaluacionResVerificacionEntity {
     @OneToMany(type => CumplimientoHospitalizacionMentalEntity, cumplimineto_gene => cumplimineto_gene.cump_eva_hospi_mental)
     eva_hospi_mental_cumplimiento: CumplimientoHospitalizacionMentalEntity[];
 
-     //GRUPO  QUIRURGICO//
+    //GRUPO  QUIRURGICO//
     //Relacion Uno a Muchos EVALUACION RES - CUMPLIMIENTO_CIRUGIA
     @OneToMany(type => CumplimientoCirugiaEntity, cumplimineto_gene => cumplimineto_gene.cump_eva_cirugia)
     eva_cirugia_cumplimiento: CumplimientoCirugiaEntity[];
 
-     //GRUPO TODOS LOS SERVICIOS//
+    //GRUPO TODOS LOS SERVICIOS//
     //Relacion Uno a Muchos EVALUACION RES - CUMPLIMIENTO_TODOS LOS SERVICIOS
     @OneToMany(type => CumplimientoServiciosEntity, cumplimineto_gene => cumplimineto_gene.cump_eva_todos_servi)
     eva_todos_servi_cumplimiento: CumplimientoServiciosEntity[];
