@@ -57,7 +57,7 @@ export class UsuarioService {
   }
 
   /*LISTANDO USUARIOS SIN ADMIN, SIN CONTADOR Y SOLO ACTIVOS*/
-  async getallUsersRol(rol_nombre: string): Promise<UsuarioEntity[]> {
+  async getallUsersRol(rol_nombre: string, usuariosSeleccionadosIds?: number[]): Promise<UsuarioEntity[]> {
     if (rol_nombre === 'sic') {
       const usuario = await this.usuarioRepository.createQueryBuilder('usuario')
         .select(['usuario', 'roles.rol_nombre'])
@@ -89,14 +89,20 @@ export class UsuarioService {
       return usuario
 
     } else if (rol_nombre === 'res') {
-      const usuario = await this.usuarioRepository.createQueryBuilder('usuario')
+      const query = this.usuarioRepository.createQueryBuilder('usuario')
         .select(['usuario', 'roles.rol_nombre'])
         .innerJoin('usuario.roles', 'roles')
-        .where('roles.rol_nombre IN (:rol)', { rol: ['res'] })
-        .andWhere('usuario.usu_estado LIKE :estado', { estado: '%true%' })
-        .getMany()
-      if (!usuario.length) throw new NotFoundException(new MessageDto('No hay Usuarios en la lista'))
-      return usuario
+        .where('roles.rol_nombre IN (:rol)', { rol: [rol_nombre] })
+        .andWhere('usuario.usu_estado LIKE :estado', { estado: '%true%' });
+
+      if (usuariosSeleccionadosIds && usuariosSeleccionadosIds.length > 0) {
+        query.andWhere('usuario.id NOT IN (:ids)', { ids: usuariosSeleccionadosIds });
+      }
+
+      const usuarios = await query.getMany();
+
+      if (!usuarios.length) throw new NotFoundException(new MessageDto('No hay Usuarios en la lista'))
+      return usuarios
     }
 
   }

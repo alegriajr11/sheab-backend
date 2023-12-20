@@ -29,14 +29,14 @@ export class DivsCreadosSicService {
             }
 
             const divs = await this.div_creadoSicRepository.createQueryBuilder('divs')
-            .select('divs')
-            .innerJoinAndSelect('divs.div_creado_eva', 'div_creado_eva')
-            .where('div_creado_eva.eva_id = :id_eva', {id_eva: dto.div_creado_eva.eva_id})
-            .andWhere('divs.div_id_dominio = :id_dominio', {id_dominio: dto.div_id_dominio})
-            .andWhere('divs.div_id_indicador = :id_indicador', {id_indicador: dto.div_id_indicador})
-            .getOne()
-            
-            if(divs){
+                .select('divs')
+                .innerJoinAndSelect('divs.div_creado_eva', 'div_creado_eva')
+                .where('div_creado_eva.eva_id = :id_eva', { id_eva: dto.div_creado_eva.eva_id })
+                .andWhere('divs.div_id_dominio = :id_dominio', { id_dominio: dto.div_id_dominio })
+                .andWhere('divs.div_id_indicador = :id_indicador', { id_indicador: dto.div_id_indicador })
+                .getOne()
+
+            if (divs) {
                 throw new Error('El dominio e indicador seleccionado ya fueron agregados a la evaluación');
             }
 
@@ -49,7 +49,6 @@ export class DivsCreadosSicService {
             // GUARDAMOS EL DIV A LA BASE DE DATOS
             await this.div_creadoSicRepository.save(div_sic);
 
-
             return new MessageDto('Indicador Asignado');
         } catch (error) {
             console.log(error)
@@ -57,4 +56,17 @@ export class DivsCreadosSicService {
         }
     }
 
+    async getDivsByEvaluacion(eva_id: number): Promise<DivCreadoSicEntity[]> {
+        const divs = await this.div_creadoSicRepository.createQueryBuilder('divs')
+            .select('divs')
+            .innerJoinAndSelect('divs.div_creado_eva', 'div_creado_eva')
+            .where('div_creado_eva.eva_id = :id_eva', { id_eva: eva_id })
+            .getMany()
+
+        if (!Array.isArray(divs) || divs.length == 0) {
+            throw new NotFoundException(new MessageDto('No hay divs para esa evaluacion'));
+        }
+
+        return divs;
+    }
 }

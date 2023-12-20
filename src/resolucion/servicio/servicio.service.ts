@@ -24,17 +24,6 @@ export class ServicioService {
         return criterio;
     }
 
-    //LISTANDO SERVICIOS POR GRUPO DE EVALUACION
-    async getServicioxGrupo(id: number): Promise<ServicioEntity[]> {
-        const grupo_eva = await this.servicioRepository.createQueryBuilder('servicio')
-            .select(['servicio', 'evaluacion_servicios.nombre'])
-            .innerJoin('servicio.evaluacion_servicios', 'evaluacion_servicios')
-            .where('evaluacion_servicios.id = :id_eva', { id_eva: id })
-            .getMany()
-        if (!grupo_eva) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-        return grupo_eva
-    }
-
     async create(id: number, dto: ServiciosnDto): Promise<any> {
         const evaluacion = await this.grupoEvaluacionRepository.findOne({ where: { id: id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('El Estandar no ha sido creado'))
@@ -47,6 +36,7 @@ export class ServicioService {
         return new MessageDto('El servicio ha sido Creado Correctamente');
     }
 
+    
     //ENCONTRAR POR ID - CRITERIO PRETANSFUNCIONAL
     async findById(id: number): Promise<ServicioEntity> {
         const servicio = await this.servicioRepository.findOne({ where: { id } });
