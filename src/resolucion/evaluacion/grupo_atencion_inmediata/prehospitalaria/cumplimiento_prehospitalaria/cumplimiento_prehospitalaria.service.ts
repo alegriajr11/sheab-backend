@@ -20,7 +20,7 @@ export class CumplimientoPrehospitalariaService {
         @InjectRepository(EvaluacionResVerificacionEntity)
         private readonly evaluacionResRepository: EvaluacionResVerificacionRepository,
     ) { }
-    
+
     //ENCONTRAR POR ID - CUMPLIMIENTO
     async findById(cump_preh_id: number): Promise<CumplimientoPrehospitalariaEntity> {
         const cumplimiento = await this.cumplimientoPrehospitalariaRepository.findOne({ where: { cump_preh_id } });
@@ -29,48 +29,51 @@ export class CumplimientoPrehospitalariaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
-    
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoPrehospitalariaEntity[]> {
+        const cumplimiento = await this.cumplimientoPrehospitalariaRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_prehospitalaria.cripreh_nombre_criterio', 'prehospitalaria.parto_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_prehospitalaria', 'criterio_prehospitalaria')
+            .innerJoin('cumplimiento.cump_eva_prehospi', 'cump_eva_prehospi')
+            .innerJoin('criterio_prehospitalaria.prehospitalaria', 'prehospitalaria')
+            .where('cump_eva_prehospi.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
     //METODO CREAR CUMPLIMIENTO
     async create(cripreh_id: number, eva_id: number, dto: CumplimientoPrehospitalariaDto): Promise<any> {
         const criterio = await this.criterioPrehospitalariaRepository.findOne({ where: { cripreh_id: cripreh_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
-    
+
         const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('La evaluacion no ha sido creada'))
-    
+
         //CREAMOS EL DTO PARA TRANSFERIR LOS DATOS
         const cumplimiento = this.cumplimientoPrehospitalariaRepository.create(dto)
-    
+
         //ASIGNAMOS EL criterio AL cumplimiento
         cumplimiento.criterio_prehospitalaria = criterio
-    
+
         //ASIGNAMOS EL evaluacion AL cumplimiento
         cumplimiento.cump_eva_prehospi = evaluacion
         //GUARDAR LOS DATOS EN LA BD
         await this.cumplimientoPrehospitalariaRepository.save(cumplimiento)
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
-    
-    
-    
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+
+
+    //ELIMINAR CUMPLIMIENTO PREHOSPITALARIA
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoPrehospitalariaRepository.delete(cumplimiento.cump_preh_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
-    
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+
+    //ACTUALIZAR CUMPLIMIENTO PREHOSPITALARIA
     async updateCapacidad(id: number, dto: CumplimientoPrehospitalariaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,10 +84,10 @@ export class CumplimientoPrehospitalariaService {
         dto.cump_preh_accion ? cumplimiento.cump_preh_accion = dto.cump_preh_accion : cumplimiento.cump_preh_accion = cumplimiento.cump_preh_accion;
         dto.cump_preh_responsable ? cumplimiento.cump_preh_responsable = dto.cump_preh_responsable : cumplimiento.cump_preh_responsable = cumplimiento.cump_preh_responsable;
         dto.cump_preh_fecha_limite ? cumplimiento.cump_preh_fecha_limite = dto.cump_preh_fecha_limite : cumplimiento.cump_preh_fecha_limite = cumplimiento.cump_preh_fecha_limite;
-        
+
         await this.cumplimientoPrehospitalariaRepository.save(cumplimiento);
-    
+
         return new MessageDto(`El cumplimiento ha sido Actualizado`);
-    
+
     }
 }

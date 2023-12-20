@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioHermodinamiaIntervenDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/hemodinamia_intervencionismo_dto/criterio_hemo_inter.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosApoyoDiagnosticoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/criterio_apoyo_diagnostico.dto';
 
 @Controller('criterios-hemod-interven')
 export class CriteriosHemodIntervenController {

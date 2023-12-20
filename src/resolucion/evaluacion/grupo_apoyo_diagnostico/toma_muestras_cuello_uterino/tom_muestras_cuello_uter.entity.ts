@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioCuelloUterinoEntity } from "./criterio_tom_muest_cuello.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class CuelloUterinoEntity {
     @OneToMany(type => CriterioCuelloUterinoEntity, cri_cuello_uterino => cri_cuello_uterino.cue_uterino)
     criterios_cuello_uterino: CriterioCuelloUterinoEntity;
 
-    //Relación MUCHOS a UNO TOMA_MUESTRAS_CUELLO_UTERINO - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.tom_mue_uterino)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE TOMA_MUESTRAS_CUELLO_UTERINO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_cuello_uterino)
+    cuello_uterino_estan_servicios: ServicioEntity;
 
 }

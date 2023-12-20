@@ -30,16 +30,19 @@ export class CumplimientoTodosServiciosService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoServiciosEntity[]> {
+        const cumplimiento = await this.cumplimientoServiciosRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_servicios.cris_nombre_criterio', 'todos_servicios.tod_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_servicios', 'criterio_servicios')
+            .innerJoin('cumplimiento.cump_eva_todos_servi', 'cump_eva_todos_servi')
+            .innerJoin('criterio_servicios.todos_servicios', 'todos_servicios')
+            .where('cump_eva_todos_servi.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(cris_id: number, eva_id: number, dto: CumplimientoServiciosDto): Promise<any> {

@@ -29,16 +29,19 @@ export class CumplimientoLabCitologiaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoLabUterinaEntity[]> {
+        const cumplimiento = await this.cumplimientoLabUterinaRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_lab_uterina.cri_lab_ute_nombre_criterio', 'lab_cit_uterina.labcit_uter_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_lab_uterina', 'criterio_lab_uterina')
+            .innerJoin('cumplimiento.cump_eva_cito_uter', 'cump_eva_cito_uter')
+            .innerJoin('criterio_lab_uterina.lab_cit_uterina', 'lab_cit_uterina')
+            .where('cump_eva_cito_uter.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_lab_ute_id: number, eva_id: number, dto: CumplimientoLabUterinaDto): Promise<any> {
@@ -61,16 +64,16 @@ export class CumplimientoLabCitologiaService {
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
 
-    
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+    //ELIMINAR CUMPLIMIENTO LAB CITOLOGIAS UTERINAS
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoLabUterinaRepository.delete(cumplimiento.cump_labuter_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO LAB CITOLOGIAS UTERINAS
     async updateCapacidad(id: number, dto: CumplimientoLabUterinaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,7 +84,7 @@ export class CumplimientoLabCitologiaService {
         dto.cump_labuter_accion ? cumplimiento.cump_labuter_accion = dto.cump_labuter_accion : cumplimiento.cump_labuter_accion = cumplimiento.cump_labuter_accion;
         dto.cump_labuter_responsable ? cumplimiento.cump_labuter_responsable = dto.cump_labuter_responsable : cumplimiento.cump_labuter_responsable = cumplimiento.cump_labuter_responsable;
         dto.cump_labuter_fecha_limite ? cumplimiento.cump_labuter_fecha_limite = dto.cump_labuter_fecha_limite : cumplimiento.cump_labuter_fecha_limite = cumplimiento.cump_labuter_fecha_limite;
-        
+
         await this.cumplimientoLabUterinaRepository.save(cumplimiento);
 
         return new MessageDto(`El cumplimiento ha sido Actualizado`);

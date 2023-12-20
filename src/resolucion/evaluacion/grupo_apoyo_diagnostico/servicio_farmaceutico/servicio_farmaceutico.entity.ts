@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioSerFarmaceuticoEntity } from "./criterios_s_farmaceutico.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class ServFarmaceuticoEntity {
     @OneToMany(type => CriterioSerFarmaceuticoEntity, cri_ser_farmaceutico => cri_ser_farmaceutico.ser_farmaceutico)
     criterios_ser_farmaceutico: CriterioSerFarmaceuticoEntity;
 
-    //Relación MUCHOS a UNO SERVICIO_FARMACEUTICO - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.ser_farmaceutico)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE SERVICIO_FARMACEUTICO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_servi_farma)
+    servi_farma_estan_servicios: ServicioEntity;
 
 }

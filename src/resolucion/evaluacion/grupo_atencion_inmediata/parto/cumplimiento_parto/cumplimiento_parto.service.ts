@@ -28,16 +28,19 @@ async findById(cump_parto_id: number): Promise<CumplimientoPartoEntity> {
     }
     return cumplimiento;
 }
-//     //LISTANDO CAPACIDAD POR PRESTADOR
-// async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-//     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-//     .select(['servicio', 'prestadores.pre_nombre'])
-//     .innerJoin('servicio.prestadores', 'prestadores')
-//     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-//     .getMany()
-//     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-//     return servicio_prestador
-// }
+
+//LISTANDO CUMPLIMIENTOS POR evaluacion
+async getCumplimientoForEva(id: number): Promise<CumplimientoPartoEntity[]> {
+    const cumplimiento = await this.cumplimientoPartoRepository.createQueryBuilder('cumplimiento')
+        .select(['cumplimiento', 'criterio_parto.criparto_nombre_criterio', 'parto.parto_nombre_estandar'])
+        .innerJoin('cumplimiento.criterio_parto', 'criterio_parto')
+        .innerJoin('cumplimiento.cump_eva_parto', 'cump_eva_parto')
+        .innerJoin('criterio_parto.parto', 'parto')
+        .where('cump_eva_parto.eva_id = :id_evad', { id_evad: id })
+        .getMany()
+    if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+    return cumplimiento
+}
 
 //METODO CREAR CUMPLIMIENTO
 async create(criparto_id: number, eva_id: number, dto: CumplimientoPartoDto): Promise<any> {
@@ -62,14 +65,14 @@ async create(criparto_id: number, eva_id: number, dto: CumplimientoPartoDto): Pr
 
 
 
-//ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+//ELIMINAR CUMPLIMIENTO PARTO
 async delete(id: number): Promise<any> {
     const cumplimiento = await this.findById(id);
     await this.cumplimientoPartoRepository.delete(cumplimiento.cump_parto_id)
     return new MessageDto(`cumplimiento Eliminado`);
 }
 
-//ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+//ACTUALIZAR CUMPLIMIENTO PARTO
 async updateCapacidad(id: number, dto: CumplimientoPartoDto): Promise<any> {
     const cumplimiento = await this.findById(id);
     if (!cumplimiento) {

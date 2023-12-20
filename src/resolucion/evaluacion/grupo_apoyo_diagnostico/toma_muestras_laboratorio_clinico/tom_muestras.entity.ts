@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioMuestraLabClinicoEntity } from "./criterio_tom_muestras.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class MuestrasLabClinicoEntity {
     @OneToMany(type => CriterioMuestraLabClinicoEntity, cri_muest_lab_clinico => cri_muest_lab_clinico.tom_mue_lab_clinico)
     criterios_muest_lab_clinico: CriterioMuestraLabClinicoEntity;
 
-    // //Relación MUCHOS a UNO TOMA_MUESTRAS_LABORATORIO_CLINICO - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.tom_mue_lab_clinico)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE TOMA_MUESTRAS_LABORATORIO_CLINICO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_toma_lab_clinico)
+    toma_lab_clinico_estan_servicios: ServicioEntity;
 
 }

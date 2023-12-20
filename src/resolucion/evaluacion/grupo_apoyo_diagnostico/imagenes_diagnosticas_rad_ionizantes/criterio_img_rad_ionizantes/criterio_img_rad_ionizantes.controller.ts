@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioImgRadIonizantesDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/imagenes_diagnosticas_rad_ionizantes_dto/criterio_img_rad_ionizantes.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosApoyoDiagnosticoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/criterio_apoyo_diagnostico.dto';
 
 @Controller('criterio-img-rad-ionizantes')
 export class CriterioImgRadIonizantesController {

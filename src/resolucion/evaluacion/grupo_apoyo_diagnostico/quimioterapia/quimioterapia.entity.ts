@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioQuimioterapiaEntity } from "./criterio_quimioterapia.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class QuimioterapiaEntity {
     @OneToMany(type => CriterioQuimioterapiaEntity, cri_quimioterapia => cri_quimioterapia.quimioterapia)
     criterios_quimioterapia: CriterioQuimioterapiaEntity;
 
-    //Relación MUCHOS a UNO QUIMIOTERAPIA - PRESTAOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.quimioterapia)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE QUIMIOTERAPIA CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_quimioterapia)
+    quimioterapia_estan_servicios: ServicioEntity;
 
 }

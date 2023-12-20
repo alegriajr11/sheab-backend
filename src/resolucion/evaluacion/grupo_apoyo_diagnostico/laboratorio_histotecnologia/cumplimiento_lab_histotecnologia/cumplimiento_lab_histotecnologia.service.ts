@@ -29,16 +29,19 @@ export class CumplimientoLabHistotecnologiaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoLabHistotecnEntity[]> {
+        const cumplimiento = await this.cumplimientoLabHistotecnRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_lab_histotecnologia.cri_lab_histo_nombre_criterio','lab_histotecnologia.labhisto_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_lab_histotecnologia', 'criterio_lab_histotecnologia')
+            .innerJoin('cumplimiento.cump_eva_lab_histotec', 'cump_eva_lab_histotec')
+            .innerJoin('criterio_lab_histotecnologia.lab_histotecnologia', 'lab_histotecnologia')
+            .where('cump_eva_lab_histotec.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_lab_histo_id: number, eva_id: number, dto: CumplimientoLabHistotecnologiaDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoLabHistotecnologiaService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO LAB HISTOTECNOLOGICO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoLabHistotecnRepository.delete(cumplimiento.cump_labhistot_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO LAB HISTOTECNOLOGICO
     async updateCapacidad(id: number, dto: CumplimientoLabHistotecnologiaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

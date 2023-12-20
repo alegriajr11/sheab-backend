@@ -4,6 +4,8 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioVacunacionDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_consulta_externa_dtos/vacunacion_dto/criterio_vacunacion.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosApoyoDiagnosticoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/criterio_apoyo_diagnostico.dto';
+import { CriteriosConsultaExternaDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_consulta_externa_dtos/criterio_consulta_externa.dto';
 
 @Controller('criterios-vacunacion')
 export class CriteriosVacunacionController {

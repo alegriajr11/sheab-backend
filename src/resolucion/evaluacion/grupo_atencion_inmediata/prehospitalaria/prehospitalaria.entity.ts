@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioPrehospitalariaEntity } from "./criterio_prehospitalaria.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class PrehospitalariaEntity {
     @OneToMany(type => CriterioPrehospitalariaEntity, cri_prehospitalaria => cri_prehospitalaria.prehospitalaria)
     criterios_prehospitalaria: CriterioPrehospitalariaEntity;
 
-    //Relación MUCHOS a UNO PREHOSPITALARIA - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.prehospitalaria)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE PREHOSPITALARIA CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_prehospitalaria)
+    prehospitalaria_estan_servicios: ServicioEntity;
 
 }

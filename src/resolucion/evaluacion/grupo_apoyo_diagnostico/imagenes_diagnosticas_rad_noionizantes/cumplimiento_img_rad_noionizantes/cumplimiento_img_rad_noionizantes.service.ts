@@ -29,16 +29,19 @@ export class CumplimientoImgRadNoionizantesService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoImgRadNoIonizanteEntity[]> {
+        const cumplimiento = await this.cumplimientoImgRadNoIonizanteRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_img_rad_noion.cri_img_noioni_nombre_criterio','imgrad_noionizante.imgrad_noion_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_img_rad_noion', 'criterio_img_rad_noion')
+            .innerJoin('cumplimiento.cump_eva_ima_noioniza', 'cump_eva_ima_noioniza')
+            .innerJoin('criterio_img_rad_noion.imgrad_noionizante', 'imgrad_noionizante')
+            .where('cump_eva_ima_noioniza.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_img_noioni_id: number, eva_id: number, dto: CumplimientoImgRadNoIonizantesDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoImgRadNoionizantesService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO IMAGEN NO IONIZANTE
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoImgRadNoIonizanteRepository.delete(cumplimiento.cump_img_noion_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO IMAGEN NO IONIZANTE
     async updateCapacidad(id: number, dto: CumplimientoImgRadNoIonizantesDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

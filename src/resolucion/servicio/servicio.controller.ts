@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { ServicioService } from './servicio.service';
 import { ServiciosnDto } from '../dtos/servicios/servicios.dto';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
 
 @Controller('servicio')
 export class ServicioController {
@@ -11,6 +12,13 @@ export class ServicioController {
     @Get()
     getAll() {
         return this.servicioService.getall();
+    }
+
+    //OBTENER SERVICIO  POR GRUPO EVALUACION
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async getOneCriterio(@Param('id', ParseIntPipe) id: number) {
+        return await this.servicioService.getServicioxGrupo(id)
     }
 
     //CREAR EVALUACION

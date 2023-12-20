@@ -29,16 +29,19 @@ export class CumplimientoTomMuestrasService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoMuestLabClinicoEntity[]> {
+        const cumplimiento = await this.cumplimientoMuestLabClinicoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_muest_lab_clinico.cri_muest_cli_nombre_criterio', 'tom_mue_lab_clinico.mue_lab_cli_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_muest_lab_clinico', 'criterio_muest_lab_clinico')
+            .innerJoin('cumplimiento.cump_eva_toma_muestras_lab_cli', 'cump_eva_toma_muestras_lab_cli')
+            .innerJoin('criterio_muest_lab_clinico.tom_mue_lab_clinico', 'tom_mue_lab_clinico')
+            .where('cump_eva_toma_muestras_lab_cli.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_muest_cli_id: number, eva_id: number, dto: CumplimientoMuestraLabClinicoDto): Promise<any> {
@@ -61,16 +64,16 @@ export class CumplimientoTomMuestrasService {
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
 
-    
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+    //ELIMINAR CUMPLIMIENTO TOMA MUESTRAS LABORATORIO CLINICO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoMuestLabClinicoRepository.delete(cumplimiento.cump_mues_clin_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO TOMA MUESTRAS LABORATORIO CLINICO
     async updateCapacidad(id: number, dto: CumplimientoMuestraLabClinicoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,7 +84,7 @@ export class CumplimientoTomMuestrasService {
         dto.cump_mues_clin_accion ? cumplimiento.cump_mues_clin_accion = dto.cump_mues_clin_accion : cumplimiento.cump_mues_clin_accion = cumplimiento.cump_mues_clin_accion;
         dto.cump_mues_clin_responsable ? cumplimiento.cump_mues_clin_responsable = dto.cump_mues_clin_responsable : cumplimiento.cump_mues_clin_responsable = cumplimiento.cump_mues_clin_responsable;
         dto.cump_mues_clin_fecha_limite ? cumplimiento.cump_mues_clin_fecha_limite = dto.cump_mues_clin_fecha_limite : cumplimiento.cump_mues_clin_fecha_limite = cumplimiento.cump_mues_clin_fecha_limite;
-        
+
         await this.cumplimientoMuestLabClinicoRepository.save(cumplimiento);
 
         return new MessageDto(`El cumplimiento ha sido Actualizado`);

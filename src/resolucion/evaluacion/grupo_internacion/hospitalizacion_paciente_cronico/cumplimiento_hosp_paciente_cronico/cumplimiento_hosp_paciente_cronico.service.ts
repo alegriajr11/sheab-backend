@@ -29,16 +29,19 @@ export class CumplimientoHospPacienteCronicoService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoHospitCronicoEntity[]> {
+        const cumplimiento = await this.CumplimientoHospitCronicoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_hospit_cronico.crihosp_cron_nombre_criterio', 'hospit_cronico.hosp_cron_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_hospit_cronico', 'criterio_hospit_cronico')
+            .innerJoin('cumplimiento.cump_eva_hospi_cronico', 'cump_eva_hospi_cronico')
+            .innerJoin('criterio_hospit_cronico.hospit_cronico', 'hospit_cronico')
+            .where('cump_eva_hospi_cronico.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(crihosp_cron_id: number, eva_id: number, dto: CumplimientoHospitCronicoDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoHospPacienteCronicoService {
     
     
     
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO HOSPITALIZACION PACIENTE CRONICO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.CumplimientoHospitCronicoRepository.delete(cumplimiento.cump_hosp_cron_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
     
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO HOSPITALIZACION PACIENTE CRONICO
     async updateCapacidad(id: number, dto: CumplimientoHospitCronicoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

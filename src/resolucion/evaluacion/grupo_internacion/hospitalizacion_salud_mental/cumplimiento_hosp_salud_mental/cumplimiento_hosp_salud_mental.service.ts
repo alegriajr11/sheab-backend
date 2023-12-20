@@ -21,7 +21,7 @@ export class CumplimientoHospSaludMentalService {
         @InjectRepository(EvaluacionResVerificacionEntity)
         private readonly evaluacionResRepository: EvaluacionResVerificacionRepository,
     ) { }
-    
+
     //ENCONTRAR POR ID - CUMPLIMIENTO
     async findById(cump_hosp_ment_id: number): Promise<CumplimientoHospitalizacionMentalEntity> {
         const cumplimiento = await this.cumplimientoHospitalizacionMentalRepository.findOne({ where: { cump_hosp_ment_id } });
@@ -30,48 +30,51 @@ export class CumplimientoHospSaludMentalService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
-    
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoHospitalizacionMentalEntity[]> {
+        const cumplimiento = await this.cumplimientoHospitalizacionMentalRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_hospitalizacion_mental.crihosp_ment_nombre_criterio', 'hospitalizacion_mental.hosp_mental_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_hospitalizacion_mental', 'criterio_hospitalizacion_mental')
+            .innerJoin('cumplimiento.cump_eva_hospi_mental', 'cump_eva_hospi_mental')
+            .innerJoin('criterio_hospitalizacion_mental.hospitalizacion_mental', 'hospitalizacion_mental')
+            .where('cump_eva_hospi_mental.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
     //METODO CREAR CUMPLIMIENTO
     async create(crihosp_ment_id: number, eva_id: number, dto: CumplimientoHospitalizacionMentalDto): Promise<any> {
         const criterio = await this.criterioHospitalizacionMentalRepository.findOne({ where: { crihosp_ment_id: crihosp_ment_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
-    
+
         const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('La evaluacion no ha sido creada'))
-    
+
         //CREAMOS EL DTO PARA TRANSFERIR LOS DATOS
         const cumplimiento = this.cumplimientoHospitalizacionMentalRepository.create(dto)
-    
+
         //ASIGNAMOS EL criterio AL cumplimiento
         cumplimiento.criterio_hospitalizacion_mental = criterio
-    
+
         //ASIGNAMOS EL evaluacion AL cumplimiento
         cumplimiento.cump_eva_hospi_mental = evaluacion
         //GUARDAR LOS DATOS EN LA BD
         await this.cumplimientoHospitalizacionMentalRepository.save(cumplimiento)
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
-    
-    
-    
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+
+
+    //ELIMINAR CUMPLIMIENTO HOSPITALIZACION SALUD MENTAL
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoHospitalizacionMentalRepository.delete(cumplimiento.cump_hosp_ment_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
-    
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+
+    //ACTUALIZAR CUMPLIMIENTO HOSPITALIZACION SALUD MENTAL
     async updateCapacidad(id: number, dto: CumplimientoHospitalizacionMentalDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -82,10 +85,10 @@ export class CumplimientoHospSaludMentalService {
         dto.cump_hosp_ment_accion ? cumplimiento.cump_hosp_ment_accion = dto.cump_hosp_ment_accion : cumplimiento.cump_hosp_ment_accion = cumplimiento.cump_hosp_ment_accion;
         dto.cump_hosp_ment_responsable ? cumplimiento.cump_hosp_ment_responsable = dto.cump_hosp_ment_responsable : cumplimiento.cump_hosp_ment_responsable = cumplimiento.cump_hosp_ment_responsable;
         dto.cump_hosp_ment_fecha_limite ? cumplimiento.cump_hosp_ment_fecha_limite = dto.cump_hosp_ment_fecha_limite : cumplimiento.cump_hosp_ment_fecha_limite = cumplimiento.cump_hosp_ment_fecha_limite;
-        
+
         await this.cumplimientoHospitalizacionMentalRepository.save(cumplimiento);
-    
+
         return new MessageDto(`El cumplimiento ha sido Actualizado`);
-    
+
     }
 }

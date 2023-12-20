@@ -16,7 +16,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000; // Usar 3000 si la variable de entorno no está definida
 
   // Server Port loacalmente
-  //const port = +configService.get<number>(SERVER_PORT) || 3000;
-  await app.listen(port);
+  // const port = +configService.get<number>(SERVER_PORT) || 3000;
+  // await app.listen(port);
 }
 bootstrap();

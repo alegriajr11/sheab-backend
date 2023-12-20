@@ -29,16 +29,19 @@ export class CumplimientoServicioFarmaceuticoService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoSerFarmaceuticoEntity[]> {
+        const cumplimiento = await this.cumplimientoSerFarmaceuticoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_ser_farmaceutico.criser_farm_nombre_criterio','ser_farmaceutico.ser_farma_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_ser_farmaceutico', 'criterio_ser_farmaceutico')
+            .innerJoin('cumplimiento.cump_eva_serv_farma', 'cump_eva_serv_farma')
+            .innerJoin('criterio_ser_farmaceutico.ser_farmaceutico', 'ser_farmaceutico')
+            .where('cump_eva_serv_farma.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(criser_farm_id: number, eva_id: number, dto: CumplimientoSerFarmaceuticoDto): Promise<any> {

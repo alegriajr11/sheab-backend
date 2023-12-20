@@ -162,6 +162,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path'; // Importa join desde el módulo path
 import { BackupBdModule } from './backup_bd/backup_bd.module';
 import { DivsCreadosSicModule } from './sic/divs-creados-sic/divs-creados-sic.module';
+import { CumplimientoRadioOdontModule } from './resolucion/evaluacion/grupo_apoyo_diagnostico/radiologia_odont/cumplimiento_radio_odont/cumplimiento_radio_odont.module';
+import { CumplimientoRadioterapiaModule } from './resolucion/evaluacion/grupo_apoyo_diagnostico/radioterapia/cumplimiento_radioterapia/cumplimiento_radioterapia.module';
 
 
 @Module({
@@ -303,6 +305,8 @@ import { DivsCreadosSicModule } from './sic/divs-creados-sic/divs-creados-sic.mo
     ControlarImagenesModule,
     BackupBdModule,
     DivsCreadosSicModule,
+    CumplimientoRadioOdontModule,
+    CumplimientoRadioterapiaModule,
     
 
 

@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioLabUterinaEntity } from "./criterio_lab_citologia_uterina.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class LabCitologiaUterinaEntity {
     @OneToMany(type => CriterioLabUterinaEntity, cri_lab_uterina => cri_lab_uterina.lab_cit_uterina)
     criterios_lab_uterina: CriterioLabUterinaEntity;
 
-    //Relación MUCHOS a UNO LAB_CITOLOGIA UTERINA - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.lab_uterina)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE LABORATORIO CITOLOGIAS UTERINAS CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_lab_citologia)
+    lab_citologia_estan_servicios: ServicioEntity;
 
 }

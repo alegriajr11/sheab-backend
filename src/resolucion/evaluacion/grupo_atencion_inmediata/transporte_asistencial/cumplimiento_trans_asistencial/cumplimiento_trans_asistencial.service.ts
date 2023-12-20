@@ -20,7 +20,7 @@ export class CumplimientoTransAsistencialService {
         @InjectRepository(EvaluacionResVerificacionEntity)
         private readonly evaluacionResRepository: EvaluacionResVerificacionRepository,
     ) { }
-    
+
     //ENCONTRAR POR ID - CUMPLIMIENTO
     async findById(cump_trans_asis_id: number): Promise<CumplimientoTranspAsistencialEntity> {
         const cumplimiento = await this.cumplimientoTranspAsistencialRepository.findOne({ where: { cump_trans_asis_id } });
@@ -29,48 +29,51 @@ export class CumplimientoTransAsistencialService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
-    
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoTranspAsistencialEntity[]> {
+        const cumplimiento = await this.cumplimientoTranspAsistencialRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_transp_asistencial.cri_trans_asis_nombre_criterio', 'transp_asistencial.trans_asis_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_transp_asistencial', 'criterio_transp_asistencial')
+            .innerJoin('cumplimiento.cump_eva_trans_asist', 'cump_eva_trans_asist')
+            .innerJoin('criterio_transp_asistencial.transp_asistencial', 'transp_asistencial')
+            .where('cump_eva_trans_asist.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
     //METODO CREAR CUMPLIMIENTO
     async create(cri_trans_asis_id: number, eva_id: number, dto: CumplimientoTranspAsistencialDto): Promise<any> {
         const criterio = await this.criterioTranspAsistencialRepository.findOne({ where: { cri_trans_asis_id: cri_trans_asis_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
-    
+
         const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('La evaluacion no ha sido creada'))
-    
+
         //CREAMOS EL DTO PARA TRANSFERIR LOS DATOS
         const cumplimiento = this.cumplimientoTranspAsistencialRepository.create(dto)
-    
+
         //ASIGNAMOS EL criterio AL cumplimiento
         cumplimiento.criterio_transp_asistencial = criterio
-    
+
         //ASIGNAMOS EL evaluacion AL cumplimiento
         cumplimiento.cump_eva_trans_asist = evaluacion
         //GUARDAR LOS DATOS EN LA BD
         await this.cumplimientoTranspAsistencialRepository.save(cumplimiento)
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
-    
-    
-    
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+
+
+    //ELIMINAR CUMPLIMIENTOS TRASNPORTE ASISTENCIAL
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoTranspAsistencialRepository.delete(cumplimiento.cump_trans_asis_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
-    
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+
+    //ACTUALIZAR CUMPLIMIENTOS TRASNPORTE ASISTENCIAL
     async updateCapacidad(id: number, dto: CumplimientoTranspAsistencialDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,10 +84,10 @@ export class CumplimientoTransAsistencialService {
         dto.cump_trans_asis_accion ? cumplimiento.cump_trans_asis_accion = dto.cump_trans_asis_accion : cumplimiento.cump_trans_asis_accion = cumplimiento.cump_trans_asis_accion;
         dto.cump_trans_asis_responsable ? cumplimiento.cump_trans_asis_responsable = dto.cump_trans_asis_responsable : cumplimiento.cump_trans_asis_responsable = cumplimiento.cump_trans_asis_responsable;
         dto.cump_trans_asis_fecha_limite ? cumplimiento.cump_trans_asis_fecha_limite = dto.cump_trans_asis_fecha_limite : cumplimiento.cump_trans_asis_fecha_limite = cumplimiento.cump_trans_asis_fecha_limite;
-        
+
         await this.cumplimientoTranspAsistencialRepository.save(cumplimiento);
-    
+
         return new MessageDto(`El cumplimiento ha sido Actualizado`);
-    
+
     }
 }

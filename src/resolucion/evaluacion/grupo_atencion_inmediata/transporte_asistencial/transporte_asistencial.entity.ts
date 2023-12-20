@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioTranspAsistencialEntity } from "./criterio_trans_asistencial.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class TranspAsistencialEntity {
     @OneToMany(type => CriterioTranspAsistencialEntity, cri_transp_asistencial => cri_transp_asistencial.transp_asistencial)
     criterios_transp_asistencial: CriterioTranspAsistencialEntity;
 
-    //Relación MUCHOS a UNO TRANSPORTE_ASISTENCIAL - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.transp_asistencial)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE TRANSPORTE_ASISTENCIAL CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_trans_asistencial)
+    trans_asistencial_estan_servicios: ServicioEntity;
 
 }

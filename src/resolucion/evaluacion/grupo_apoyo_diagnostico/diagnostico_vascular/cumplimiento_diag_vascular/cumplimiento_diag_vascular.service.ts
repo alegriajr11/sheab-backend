@@ -29,20 +29,24 @@ export class CumplimientoDiagVascularService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoDiagnosticoVascularEntity[]> {
+        const cumplimiento = await this.cumplimientoDiagnostVascularRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_diag_vascular.cridiagv_nombre_criterio','diagnostico_vascular.diag_vas_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_diag_vascular', 'criterio_diag_vascular')
+            .innerJoin('cumplimiento.cump_eva_diag_vas', 'cump_eva_diag_vas')
+            .innerJoin('criterio_diag_vascular.diagnostico_vascular', 'diagnostico_vascular')
+            .where('cump_eva_diag_vas.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
 
     //METODO CREAR CUMPLIMIENTO
     async create(crivac_id: number, eva_id: number, dto: CumplimientoDiagnostiVascularDto): Promise<any> {
-        const criterio = await this.criterioDiagnostVascularRepository.findOne({ where: { crivac_id: crivac_id } });
+        const criterio = await this.criterioDiagnostVascularRepository.findOne({ where: { cri_apoyo_id: crivac_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
 
         const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
@@ -63,14 +67,14 @@ export class CumplimientoDiagVascularService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO DIAGNOSTICO VASCULAR
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoDiagnostVascularRepository.delete(cumplimiento.cump_diagv_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO DIAGNOSTICO VASCULAR
     async updateCapacidad(id: number, dto: CumplimientoDiagnostiVascularDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

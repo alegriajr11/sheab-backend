@@ -29,16 +29,19 @@ export class CumplimientoExtGeneralService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoExternaGeneralEntity[]> {
+        const cumplimiento = await this.cumplimientoExternaGeneralRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_externa_general.criextg_nombre_criterio', 'externa_general.extg_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_externa_general', 'criterio_externa_general')
+            .innerJoin('cumplimiento.cump_eva_general', 'cump_eva_general')
+            .innerJoin('criterio_externa_general.externa_general', 'externa_general')
+            .where('cump_eva_general.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(criextg_id: number, eva_id: number, dto: CumplimientoExternaGeneralDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoExtGeneralService {
     
     
     
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO EXTERNA GENERAL
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoExternaGeneralRepository.delete(cumplimiento.cump_extg_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
     
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO EXTERNA GENERAL
     async updateCapacidad(id: number, dto: CumplimientoExternaGeneralDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

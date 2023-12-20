@@ -29,16 +29,19 @@ export class CumplimientoMedicinaNuclearService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoMedNuclearEntity[]> {
+        const cumplimiento = await this.cumplimientoMedNuclearRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_med_nuclear.crimed_nucl_nombre_criterio','med_nuclear.med_nucl_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_med_nuclear', 'criterio_med_nuclear')
+            .innerJoin('cumplimiento.cump_eva_med_nuclear', 'cump_eva_med_nuclear')
+            .innerJoin('criterio_med_nuclear.med_nuclear', 'med_nuclear')
+            .where('cump_eva_med_nuclear.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(crimed_nucl_id: number, eva_id: number, dto: CumplimientoMedicinaNuclearDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoMedicinaNuclearService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO MEDICINA NUCLEAR
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoMedNuclearRepository.delete(cumplimiento.cump_med_nucl_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO MEDICINA NUCLEAR
     async updateCapacidad(id: number, dto: CumplimientoMedicinaNuclearDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

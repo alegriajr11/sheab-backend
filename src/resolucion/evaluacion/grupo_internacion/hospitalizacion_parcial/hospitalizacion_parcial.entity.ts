@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioHospitalizacionParcialEntity } from "./criterio_hosp_parcial.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class HospitalizacionParcialEntity {
     @OneToMany(type => CriterioHospitalizacionParcialEntity, cri_hospitalizacion_parcial => cri_hospitalizacion_parcial.hospitalizacion_parcial)
     criterios_hospitalizacion_parcial: CriterioHospitalizacionParcialEntity;
 
-    //Relación MUCHOS a UNO HOSPITALIZACION_PARCIAL - PRESTAOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.hospitalizacion_parcial)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE HOSPITALIZACION_PARCIAL CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_hospi_parcial)
+    hospi_parcial_estan_servicios: ServicioEntity;
 
 }

@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioPartoEntity } from "./criterio_parto.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class PartoEntity {
     @OneToMany(type => CriterioPartoEntity, cri_parto => cri_parto.parto)
     criterios_parto: CriterioPartoEntity;
 
-    //Relación MUCHOS a UNO PARTO - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.parto)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE PARTO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_parto)
+    parto_estan_servicios: ServicioEntity;
 
 }

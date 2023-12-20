@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioHermoIntervenEntity } from "./criterio_hemo_inter.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class HermodIntervenEntity {
     @OneToMany(type => CriterioHermoIntervenEntity, cri_hermod_interven => cri_hermod_interven.hermod_interven)
     criterios_hermod_interven: CriterioHermoIntervenEntity;
 
-    //Relación MUCHOS a UNO HERMODINAMIA - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.hermod_interven)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE HEMODINAMIA INTERVENCIONISMO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_hemo_inter)
+    hemo_inter_estan_servicios: ServicioEntity;
 
 }

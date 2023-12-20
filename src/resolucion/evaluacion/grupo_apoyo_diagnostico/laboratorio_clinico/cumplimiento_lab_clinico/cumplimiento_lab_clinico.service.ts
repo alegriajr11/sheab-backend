@@ -29,16 +29,19 @@ export class CumplimientoLabClinicoService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoLabClinicoEntity[]> {
+        const cumplimiento = await this.cumplimientoLabClinicoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_lab_clinico.cri_lab_cli_nombre_criterio','lab_clinico.labclin_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_lab_clinico', 'criterio_lab_clinico')
+            .innerJoin('cumplimiento.cump_eva_lab_clinico', 'cump_eva_lab_clinico')
+            .innerJoin('criterio_lab_clinico.lab_clinico', 'lab_clinico')
+            .where('cump_eva_lab_clinico.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_lab_cli_id: number, eva_id: number, dto: CumplimientoLabClinicoDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoLabClinicoService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO LABORATORIO CLINICO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoLabClinicoRepository.delete(cumplimiento.cump_labclin_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO LABORATORIO CLINICO
     async updateCapacidad(id: number, dto: CumplimientoLabClinicoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

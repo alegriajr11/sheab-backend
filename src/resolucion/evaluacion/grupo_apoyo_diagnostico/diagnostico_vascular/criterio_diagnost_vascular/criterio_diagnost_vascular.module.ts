@@ -10,10 +10,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuditoriaEliminacionModule } from 'src/auditoria/auditoria_eliminacion/auditoria_eliminacion.module';
 import { AuditoriaActualizacionModule } from 'src/auditoria/auditoria_actualizacion/auditoria_actualizacion.module';
 import { AuditoriaRegistroModule } from 'src/auditoria/auditoria_registro/auditoria_registro.module';
+import { ApartadoEntity } from 'src/resolucion/evaluacion/seccion-apartado/apartado.entity';
+import { SeccionEntity } from 'src/resolucion/evaluacion/seccion-apartado/seccion.entity';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CriterioDiagnostVascularEntity, DiagnosticoVascularEntity]),
+  imports: [TypeOrmModule.forFeature([CriterioDiagnostVascularEntity, DiagnosticoVascularEntity,ApartadoEntity,SeccionEntity]),
     AuditoriaRegistroModule, AuditoriaActualizacionModule, AuditoriaEliminacionModule,
   //MODULO JwtService
   PassportModule.register({ defaultStrategy: 'jwt' }),

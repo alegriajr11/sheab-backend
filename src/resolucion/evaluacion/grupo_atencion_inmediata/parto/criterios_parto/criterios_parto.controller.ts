@@ -4,6 +4,8 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioPartoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_atencion_inmediata_dtos/parto_dto/criterio_parto.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosApoyoDiagnosticoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/criterio_apoyo_diagnostico.dto';
+import { CriteriosAtencionInmediataDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_atencion_inmediata_dtos/criterio_atencion_inmediata.dto';
 
 @Controller('criterios-parto')
 export class CriteriosPartoController {

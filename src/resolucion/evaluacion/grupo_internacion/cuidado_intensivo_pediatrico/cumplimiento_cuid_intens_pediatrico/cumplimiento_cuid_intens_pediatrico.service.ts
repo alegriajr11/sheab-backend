@@ -29,16 +29,19 @@ export class CumplimientoCuidIntensPediatricoService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoCuidIntPediatricoEntity[]> {
+        const cumplimiento = await this.cumplimientoCuidIntPediatricoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_cuid_int_pediatrico.cri_int_ped_nombre_criterio', 'cuid_int_pediatrico.cuid_int_pedi_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_cuid_int_pediatrico', 'criterio_cuid_int_pediatrico')
+            .innerJoin('cumplimiento.cump_eva_intens_pedia', 'cump_eva_intens_pedia')
+            .innerJoin('criterio_cuid_int_pediatrico.cuid_int_pediatrico', 'cuid_int_pediatrico')
+            .where('cump_eva_intens_pedia.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(cri_int_ped_id: number, eva_id: number, dto: CumplimientoCuidIntePediatricoDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoCuidIntensPediatricoService {
     
     
     
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO CUIDADO INTENSIVO PEDIATRICO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoCuidIntPediatricoRepository.delete(cumplimiento.cump_int_ped_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
     
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO CUIDADO INTENSIVO PEDIATRICO
     async updateCapacidad(id: number, dto: CumplimientoCuidIntePediatricoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

@@ -29,16 +29,19 @@ export class CumplimientoCirugiaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoCirugiaEntity[]> {
+        const cumplimiento = await this.cumplimientoCirugiaRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_cirugia.cri_ciru_nombre_criterio', 'cirugia.ciru_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_cirugia', 'criterio_cirugia')
+            .innerJoin('cumplimiento.cump_eva_cirugia', 'cump_eva_cirugia')
+            .innerJoin('criterio_cirugia.cirugia', 'cirugia')
+            .where('cump_eva_cirugia.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(cri_ciru_id: number, eva_id: number, dto: CumplimientoCirugiaDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoCirugiaService {
     
     
     
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO CIRUGIA
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoCirugiaRepository.delete(cumplimiento.cump_ciru_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
     
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO CIRUGIA
     async updateCapacidad(id: number, dto: CumplimientoCirugiaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

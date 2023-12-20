@@ -5,6 +5,7 @@ import { CriteriosHospSaludMentalService } from './criterios_hosp_salud_mental.s
 import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosInternacionDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_internacion_dtos/criterio_internacion.dto';
 
 @Controller('criterios-hosp-salud-mental')
 export class CriteriosHospSaludMentalController {

@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioCuidBasNeonatalDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_internacion_dtos/cuidado_basico_neonatal_dto/criterio_cuid_basic_neonatal.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosInternacionDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_internacion_dtos/criterio_internacion.dto';
 
 @Controller('criterios-cuid-basic-neonatal')
 export class CriteriosCuidBasicNeonatalController {

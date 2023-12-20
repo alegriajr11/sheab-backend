@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioRadiologiaOdontoEntity } from "./criterio_radio_odont.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class RadiologiaOdontoEntity {
     @OneToMany(type => CriterioRadiologiaOdontoEntity, cri_rad_odontologica => cri_rad_odontologica.rad_odontologica)
     criterios_rad_odontologica: CriterioRadiologiaOdontoEntity;
 
-    //Relación MUCHOS a UNO RADIOLOGIA_ODONTOLOGICA - PRESTAOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.rad_odtontologica)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE RADIOLOGIA ODONTOLOGICA CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_odontologica)
+    odontologica_estan_servicios: ServicioEntity;
 
 }

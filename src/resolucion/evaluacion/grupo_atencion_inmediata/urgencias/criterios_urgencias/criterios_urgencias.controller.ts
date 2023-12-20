@@ -4,6 +4,8 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioUrgenciasDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_atencion_inmediata_dtos/urgencias_dto/criterio_urgencias.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosApoyoDiagnosticoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_apoyo_diagnostico_dtos/criterio_apoyo_diagnostico.dto';
+import { CriteriosAtencionInmediataDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_atencion_inmediata_dtos/criterio_atencion_inmediata.dto';
 
 @Controller('criterios-urgencias')
 export class CriteriosUrgenciasController {

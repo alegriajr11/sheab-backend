@@ -20,7 +20,7 @@ export class CumplimientoHospParcialService {
         @InjectRepository(EvaluacionResVerificacionEntity)
         private readonly evaluacionResRepository: EvaluacionResVerificacionRepository,
     ) { }
-    
+
     //ENCONTRAR POR ID - CUMPLIMIENTO
     async findById(cump_hosp_parc_id: number): Promise<CumplimientoHospitalizacionParcialEntity> {
         const cumplimiento = await this.cumplimientoHospitalizacionParcialRepository.findOne({ where: { cump_hosp_parc_id } });
@@ -29,48 +29,51 @@ export class CumplimientoHospParcialService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
-    
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoHospitalizacionParcialEntity[]> {
+        const cumplimiento = await this.cumplimientoHospitalizacionParcialRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_hospitalizacion_parcial.crihosp_parc_nombre_criterio', 'hospitalizacion_parcial.hosp_parc_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_hospitalizacion_parcial', 'criterio_hospitalizacion_parcial')
+            .innerJoin('cumplimiento.cump_eva_hospi_parcial', 'cump_eva_hospi_parcial')
+            .innerJoin('criterio_hospitalizacion_parcial.hospitalizacion_parcial', 'hospitalizacion_parcial')
+            .where('cump_eva_hospi_parcial.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
     //METODO CREAR CUMPLIMIENTO
     async create(crihosp_parc_id: number, eva_id: number, dto: CumplimientoHospitalizacionParcialDto): Promise<any> {
         const criterio = await this.criterioHospitalizacionParcialRepository.findOne({ where: { crihosp_parc_id: crihosp_parc_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
-    
+
         const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('La evaluacion no ha sido creada'))
-    
+
         //CREAMOS EL DTO PARA TRANSFERIR LOS DATOS
         const cumplimiento = this.cumplimientoHospitalizacionParcialRepository.create(dto)
-    
+
         //ASIGNAMOS EL criterio AL cumplimiento
         cumplimiento.criterio_hospitalizacion_parcial = criterio
-    
+
         //ASIGNAMOS EL evaluacion AL cumplimiento
         cumplimiento.cump_eva_hospi_parcial = evaluacion
         //GUARDAR LOS DATOS EN LA BD
         await this.cumplimientoHospitalizacionParcialRepository.save(cumplimiento)
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
-    
-    
-    
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+
+
+    //ELIMINAR CUMPLIMIENTO HOSPITALIZACION PARCIAL
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoHospitalizacionParcialRepository.delete(cumplimiento.cump_hosp_parc_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
-    
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+
+    //ACTUALIZAR CUMPLIMIENTO HOSPITALIZACION PARCIAL
     async updateCapacidad(id: number, dto: CumplimientoHospitalizacionParcialDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,10 +84,10 @@ export class CumplimientoHospParcialService {
         dto.cump_hosp_parc_accion ? cumplimiento.cump_hosp_parc_accion = dto.cump_hosp_parc_accion : cumplimiento.cump_hosp_parc_accion = cumplimiento.cump_hosp_parc_accion;
         dto.cump_hosp_parc_responsable ? cumplimiento.cump_hosp_parc_responsable = dto.cump_hosp_parc_responsable : cumplimiento.cump_hosp_parc_responsable = cumplimiento.cump_hosp_parc_responsable;
         dto.cump_hosp_parc_fecha_limite ? cumplimiento.cump_hosp_parc_fecha_limite = dto.cump_hosp_parc_fecha_limite : cumplimiento.cump_hosp_parc_fecha_limite = cumplimiento.cump_hosp_parc_fecha_limite;
-        
+
         await this.cumplimientoHospitalizacionParcialRepository.save(cumplimiento);
-    
+
         return new MessageDto(`El cumplimiento ha sido Actualizado`);
-    
+
     }
 }

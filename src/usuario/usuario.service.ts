@@ -233,7 +233,6 @@ export class UsuarioService {
     await this.usuarioRepository.save(usuario_actualizar);
 
     //CONDICIONALES PARA TENER EL CUENTA EL ROL Y ASÍ LLAMAR EL METODO LOG QUE LE CORRESPONDA
-    //PENDIENTE...........
     usuario_actualizar.roles.forEach(data => {
       rol_usuario = data.rol_nombre
     })

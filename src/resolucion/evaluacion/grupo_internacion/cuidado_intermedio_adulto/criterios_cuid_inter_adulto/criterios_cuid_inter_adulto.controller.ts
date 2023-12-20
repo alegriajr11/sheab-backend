@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard';
 import { CriterioCuidIntermAdultoDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_internacion_dtos/cuidado_intermedio_adulto_dto/criterio_cuid_inter_adulto.dto';
 import { RolesGuard } from 'src/guards/rol.guard';
 import { TokenDto } from 'src/auth/dto/token.dto';
+import { CriteriosInternacionDto } from 'src/resolucion/dtos/evaluacion_dtos/grupo_internacion_dtos/criterio_internacion.dto';
 
 @Controller('criterios-cuid-inter-adulto')
 export class CriteriosCuidInterAdultoController {

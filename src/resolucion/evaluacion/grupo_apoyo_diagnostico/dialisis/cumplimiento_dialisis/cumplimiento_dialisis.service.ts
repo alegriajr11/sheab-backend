@@ -28,16 +28,20 @@ export class CumplimientoDialisisService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoDialisisEntity[]> {
+        const cumplimiento = await this.cumplimientoDialisisRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_dialisis.cridial_nombre_criterio', 'dialisis.dial_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_dialisis', 'criterio_dialisis')
+            .innerJoin('criterio_dialisis.dialisis', 'dialisis')
+            .innerJoin('cumplimiento.cump_eva_dial', 'cump_eva_dial')
+            .where('cump_eva_dial.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
+
 
     //METODO CREAR CUMPLIMIENTO
     async create(cridial_id: number, eva_id: number, dto: CumplimientoDialisisDto): Promise<any> {
@@ -60,16 +64,16 @@ export class CumplimientoDialisisService {
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
 
-    
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+    //ELIMINAR CUMPLIMIENTO DIALISIS
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoDialisisRepository.delete(cumplimiento.cump_dial_id)
         return new MessageDto(`Cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO DIALISIS
     async updateCapacidad(id: number, dto: CumplimientoDialisisDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -80,10 +84,10 @@ export class CumplimientoDialisisService {
         dto.cump_dial_accion ? cumplimiento.cump_dial_accion = dto.cump_dial_accion : cumplimiento.cump_dial_accion = cumplimiento.cump_dial_accion;
         dto.cump_dial_responsable ? cumplimiento.cump_dial_responsable = dto.cump_dial_responsable : cumplimiento.cump_dial_responsable = cumplimiento.cump_dial_responsable;
         dto.cump_dial_fecha_limite ? cumplimiento.cump_dial_fecha_limite = dto.cump_dial_fecha_limite : cumplimiento.cump_dial_fecha_limite = cumplimiento.cump_dial_fecha_limite;
-        
+
         await this.cumplimientoDialisisRepository.save(cumplimiento);
 
         return new MessageDto(`El cumplimiento ha sido Actualizado`);
     }
-    
+
 }

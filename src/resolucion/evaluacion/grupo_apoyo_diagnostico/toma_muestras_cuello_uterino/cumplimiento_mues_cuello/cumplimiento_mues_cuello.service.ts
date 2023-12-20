@@ -29,16 +29,19 @@ export class CumplimientoMuesCuelloService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoCuelloUterinoEntity[]> {
+        const cumplimiento = await this.cumplimientoCuelloUterinoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_cuello_uterino.cri_cuel_ute_nombre_criterio', 'cue_uterino.cuel_ute_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_cuello_uterino', 'criterio_cuello_uterino')
+            .innerJoin('cumplimiento.cump_eva_cuello_uterino', 'cump_eva_cuello_uterino')
+            .innerJoin('criterio_cuello_uterino.cue_uterino', 'cue_uterino')
+            .where('cump_eva_cuello_uterino.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cri_cuel_ute_id: number, eva_id: number, dto: CumplimientoCuelloUterinoDto): Promise<any> {
@@ -61,16 +64,16 @@ export class CumplimientoMuesCuelloService {
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
 
-    
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+    //ELIMINAR CUMPLIMIENTO TOMA MUESTRAS CUELLO UTERINO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoCuelloUterinoRepository.delete(cumplimiento.cump_cue_uter_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO TOMA MUESTRAS CUELLO UTERINO
     async updateCapacidad(id: number, dto: CumplimientoCuelloUterinoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,7 +84,7 @@ export class CumplimientoMuesCuelloService {
         dto.cump_cue_uter_accion ? cumplimiento.cump_cue_uter_accion = dto.cump_cue_uter_accion : cumplimiento.cump_cue_uter_accion = cumplimiento.cump_cue_uter_accion;
         dto.cump_cue_uter_responsable ? cumplimiento.cump_cue_uter_responsable = dto.cump_cue_uter_responsable : cumplimiento.cump_cue_uter_responsable = cumplimiento.cump_cue_uter_responsable;
         dto.cump_cue_uter_fecha_limite ? cumplimiento.cump_cue_uter_fecha_limite = dto.cump_cue_uter_fecha_limite : cumplimiento.cump_cue_uter_fecha_limite = cumplimiento.cump_cue_uter_fecha_limite;
-        
+
         await this.cumplimientoCuelloUterinoRepository.save(cumplimiento);
 
         return new MessageDto(`El cumplimiento ha sido Actualizado`);

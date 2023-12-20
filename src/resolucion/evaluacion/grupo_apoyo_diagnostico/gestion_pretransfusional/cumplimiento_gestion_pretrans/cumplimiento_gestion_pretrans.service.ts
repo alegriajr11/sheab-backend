@@ -29,16 +29,19 @@ export class CumplimientoGestionPretransService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoGestionPretransfusionalEntity[]> {
+        const cumplimiento = await this.cumplimientoGestionPretransfusionalRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_gest_pretransfusional.crigestpre_nombre_criterio','gestion_pretransfusional.gestp_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_gest_pretransfusional', 'criterio_gest_pretransfusional')
+            .innerJoin('criterio_gest_pretransfusional.gestion_pretransfusional', 'gestion_pretransfusional')
+            .innerJoin('cumplimiento.cump_eva_pretrans', 'cump_eva_pretrans')
+            .where('cump_eva_pretrans.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(crigestpre_id: number, eva_id: number, dto: CumplimientoGestionPretransfusionalDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoGestionPretransService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO GESTION PRETRANS
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoGestionPretransfusionalRepository.delete(cumplimiento.cump_gestpre_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO GESTION PRETRANS
     async updateCapacidad(id: number, dto: CumplimientoGestionPretransfusionalDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

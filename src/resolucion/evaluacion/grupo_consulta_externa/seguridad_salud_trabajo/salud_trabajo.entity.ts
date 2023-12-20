@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CriterioSaludTrabajoEntity } from "./criterios_salud_trabajo.entity";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -20,8 +21,8 @@ export class SaludTrabajoEntity {
     @OneToMany(type => CriterioSaludTrabajoEntity, cri_salud_trabajo => cri_salud_trabajo.salud_trabajo)
     criterios_salud_trabajo: CriterioSaludTrabajoEntity;
 
-    //Relación MUCHOS a UNO CONSULTA_EXTERNA_SALUD_TRABAJO - PRESTAOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.salud_trabajo)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE SEGURIDAD Y SALUD EN EL TRABAJO CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_salud_trabajo)
+    salud_trabajo_estan_servicios: ServicioEntity;
 
 }

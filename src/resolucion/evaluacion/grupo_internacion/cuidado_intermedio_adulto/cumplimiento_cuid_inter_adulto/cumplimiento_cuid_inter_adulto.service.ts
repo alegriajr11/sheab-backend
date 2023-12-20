@@ -29,16 +29,19 @@ export class CumplimientoCuidInterAdultoService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoCuidInterAdultoEntity[]> {
+        const cumplimiento = await this.cumplimientoCuidInterAdultoRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_cuid_inter_adult.cri_inter_adult_nombre_criterio', 'cuid_inter_adulto.cuid_inter_adult_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_cuid_inter_adult', 'criterio_cuid_inter_adult')
+            .innerJoin('cumplimiento.cump_eva_inter_adul', 'cump_eva_inter_adul')
+            .innerJoin('criterio_cuid_inter_adult.cuid_inter_adulto', 'cuid_inter_adulto')
+            .where('cump_eva_inter_adul.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
     
     //METODO CREAR CUMPLIMIENTO
     async create(cri_inter_adult_id: number, eva_id: number, dto: CumplimientoCuidIntermAdultoDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoCuidInterAdultoService {
     
     
     
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO CUIDADO INTERMEDIO ADULTO
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoCuidInterAdultoRepository.delete(cumplimiento.cump_inter_adulto_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
     
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO CUIDADO INTERMEDIO ADULTO
     async updateCapacidad(id: number, dto: CumplimientoCuidIntermAdultoDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

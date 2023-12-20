@@ -29,16 +29,19 @@ export class CumplimientoQuimioterapiaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoQuimioterapiaEntity[]> {
+        const cumplimiento = await this.cumplimientoQuimioterapiaRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_quimioterapia.criquim_nombre_criterio', 'quimioterapia.quim_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_quimioterapia', 'criterio_quimioterapia')
+            .innerJoin('cumplimiento.cump_eva_quimio', 'cump_eva_quimio')
+            .innerJoin('criterio_quimioterapia.quimioterapia', 'quimioterapia')
+            .where('cump_eva_quimio.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(criquim_id: number, eva_id: number, dto: CumplimientoQuimioterapiaDto): Promise<any> {
@@ -61,16 +64,16 @@ export class CumplimientoQuimioterapiaService {
         return new MessageDto('El cumplimiento ha sido Creada Correctamente');
     }
 
-    
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+
+    //ELIMINAR CUMPLIMIENTO QUIMIOTERAPIA
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoQuimioterapiaRepository.delete(cumplimiento.cump_quim_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO QUIMIOTERAPIA
     async updateCapacidad(id: number, dto: CumplimientoQuimioterapiaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {
@@ -81,7 +84,7 @@ export class CumplimientoQuimioterapiaService {
         dto.cump_quim_accion ? cumplimiento.cump_quim_accion = dto.cump_quim_accion : cumplimiento.cump_quim_accion = cumplimiento.cump_quim_accion;
         dto.cump_quim_responsable ? cumplimiento.cump_quim_responsable = dto.cump_quim_responsable : cumplimiento.cump_quim_responsable = cumplimiento.cump_quim_responsable;
         dto.cump_quim_fecha_limite ? cumplimiento.cump_quim_fecha_limite = dto.cump_quim_fecha_limite : cumplimiento.cump_quim_fecha_limite = cumplimiento.cump_quim_fecha_limite;
-        
+
         await this.cumplimientoQuimioterapiaRepository.save(cumplimiento);
 
         return new MessageDto(`El cumplimiento ha sido Actualizado`);

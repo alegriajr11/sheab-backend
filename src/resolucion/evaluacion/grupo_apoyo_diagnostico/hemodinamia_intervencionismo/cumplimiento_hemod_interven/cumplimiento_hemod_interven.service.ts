@@ -29,16 +29,19 @@ export class CumplimientoHemodIntervenService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoHermoIntervenEntity[]> {
+        const cumplimiento = await this.cumplimientoHermoIntervenRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_hermo_interven.criherminte_nombre_criterio','hermod_interven.hermointer_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_hermo_interven', 'criterio_hermo_interven')
+            .innerJoin('criterio_hermo_interven.hermod_interven', 'hermod_interven')
+            .innerJoin('cumplimiento.cump_eva_hemo_inter', 'cump_eva_hemo_inter')
+            .where('cump_eva_hemo_inter.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(criherminte_id: number, eva_id: number, dto: CumplimientoHermodinamiaIntervenDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoHemodIntervenService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO HEMODINAMIA INTERVENCION
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoHermoIntervenRepository.delete(cumplimiento.cump_herminter_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO HEMODINAMIA INTERVENCION
     async updateCapacidad(id: number, dto: CumplimientoHermodinamiaIntervenDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

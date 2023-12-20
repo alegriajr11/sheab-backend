@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioImgRadNoIonizantesEntity } from "./criterio_img_rad_noionizantes.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class ImgRadNoIonizantesEntity {
     @OneToMany(type => CriterioImgRadNoIonizantesEntity, cri_img_noionizantes => cri_img_noionizantes.imgrad_noionizante)
     criterios_img_noionizantes: CriterioImgRadNoIonizantesEntity;
 
-    //Relación MUCHOS a UNO IMAGENES DIAGNOSTICAS RAD_IONIZANTES - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.img_ionizantes)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE IMAGENES DIAGNOSTICAS  NO IONIZANTES CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_imag_no_ionizante)
+    imag_no_ionizante_estan_servicios: ServicioEntity;
 
 }

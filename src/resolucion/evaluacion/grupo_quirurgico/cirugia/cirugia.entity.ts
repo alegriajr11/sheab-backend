@@ -3,6 +3,7 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGen
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioCirugiaEntity } from "./criterio_cirugia.entity";
 import { CumplimientoCirugiaEntity } from "./cumplimiento_cirugia.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,6 +20,10 @@ export class CirugiaEntity {
     //Relacion UNO a MUCHOS CIRUGUA (ESTANDARES) - CRITERIOS_URGENCIAS
     @OneToMany(type => CriterioCirugiaEntity, cri_cirugia => cri_cirugia.cirugia)
     criterios_cirugia: CriterioCirugiaEntity;
+
+    //RELACION MUCHOS A UNO DE CIRUGUA CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_cirugia)
+    cirugia_estan_servicios: ServicioEntity;
 
 
 }

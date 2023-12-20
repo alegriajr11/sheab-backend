@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CriterioExternaGeneralEntity } from "./criterio_ext_general.entity";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 // import { CumplimientoEstandarSicEntity } from "./cumplimientoestandar.entity";
 
@@ -19,8 +20,8 @@ export class ExternaGeneralEntity {
     @OneToMany(type => CriterioExternaGeneralEntity, cri_ext_general => cri_ext_general.externa_general)
     criterios_externa_general: CriterioExternaGeneralEntity;
 
-    //Relación MUCHOS a UNO CONSULTA_EXTERNA_ESPECIALIZADA - PRESTAOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.ext_general)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE EXTERNA_GENERAL CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity, servicio => servicio.servicios_ext_general)
+    ext_general_estan_servicios: ServicioEntity;
 
 }

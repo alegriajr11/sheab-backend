@@ -29,16 +29,19 @@ export class CumplimientoPatologiaService {
         }
         return cumplimiento;
     }
-    //     //LISTANDO CAPACIDAD POR PRESTADOR
-    // async getServicioForPrestador(id: string): Promise<CapacidadInstaladaEntity[]> {
-    //     const servicio_prestador = await this.capacidadInstaladaRepository.createQueryBuilder('servicio')
-    //     .select(['servicio', 'prestadores.pre_nombre'])
-    //     .innerJoin('servicio.prestadores', 'prestadores')
-    //     .where('prestadores.pre_cod_habilitacion = :servi_pres', { servi_pres : id})
-    //     .getMany()
-    //     if (!servicio_prestador) throw new NotFoundException(new MessageDto('No Existe en la lista'))
-    //     return servicio_prestador
-    // }
+    
+    //LISTANDO CUMPLIMIENTOS POR evaluacion
+    async getCumplimientoForEva(id: number): Promise<CumplimientoPatologiaEntity[]> {
+        const cumplimiento = await this.cumplimientoPatologiaRepository.createQueryBuilder('cumplimiento')
+            .select(['cumplimiento', 'criterio_patologia.cripat_nombre_criterio','patologia.pato_nombre_estandar'])
+            .innerJoin('cumplimiento.criterio_patologia', 'criterio_patologia')
+            .innerJoin('cumplimiento.cump_eva_patologia', 'cump_eva_patologia')
+            .innerJoin('criterio_patologia.patologia', 'patologia')
+            .where('cump_eva_patologia.eva_id = :id_evad', { id_evad: id })
+            .getMany()
+        if (!cumplimiento) throw new NotFoundException(new MessageDto('No Existe en la lista'))
+        return cumplimiento
+    }
 
     //METODO CREAR CUMPLIMIENTO
     async create(cripat_id: number, eva_id: number, dto: CumplimientoPatologiaDto): Promise<any> {
@@ -63,14 +66,14 @@ export class CumplimientoPatologiaService {
 
     
 
-    //ELIMINAR CRITERIO DIAGNOSTICO VASCULAR
+    //ELIMINAR CUMPLIMIENTO PATOLOGIA
     async delete(id: number): Promise<any> {
         const cumplimiento = await this.findById(id);
         await this.cumplimientoPatologiaRepository.delete(cumplimiento.cump_pato_id)
         return new MessageDto(`cumplimiento Eliminado`);
     }
 
-    //ACTUALIZAR CRITERIOS DIAGNOSTICO VASCULAR
+    //ACTUALIZAR CUMPLIMIENTO PATOLOGIA
     async updateCapacidad(id: number, dto: CumplimientoPatologiaDto): Promise<any> {
         const cumplimiento = await this.findById(id);
         if (!cumplimiento) {

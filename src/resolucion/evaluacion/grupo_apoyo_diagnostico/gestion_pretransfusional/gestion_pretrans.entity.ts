@@ -2,6 +2,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PrestadorEntity } from "src/prestador/prestador.entity";
 import { CriterioGestionPretransfusionalEntity } from "./criterio_gestion_pretrans.entity";
+import { ServicioEntity } from "src/resolucion/servicio/servicio.entity";
 
 
 
@@ -19,8 +20,8 @@ export class GestionPretransfusionalEntity {
     @OneToMany(type => CriterioGestionPretransfusionalEntity, cri_gest_pretransfusional => cri_gest_pretransfusional.gestion_pretransfusional)
     criterios_gest_pretransfusional: CriterioGestionPretransfusionalEntity;
 
-    //Relación MUCHOS a UNO GESTION PRETRANSFUSIONAL - PRESTADOR
-    // @ManyToOne(type => PrestadorEntity, prestador => prestador.gest_pretransfusional)
-    // prestador: PrestadorEntity
+    //RELACION MUCHOS A UNO DE GESTION PRETRANSFUNCIONAL CON SERVICIOS 
+    @ManyToOne(type => ServicioEntity,  servicio=>  servicio.servicios_gestion_pretrans)
+    gestion_pretrans_estan_servicios: ServicioEntity;
 
 }
