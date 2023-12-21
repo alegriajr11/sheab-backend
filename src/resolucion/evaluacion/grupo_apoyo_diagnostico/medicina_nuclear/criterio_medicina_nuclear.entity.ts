@@ -30,11 +30,11 @@ export class CriterioMedicinaNuclearEntity {
     med_nuclear: MedNuclearEntity;
 
     //RELACION ONTE TO ONE CRITERIOS MEDICINA_NUCLEAR A CUMPLIMIENTO MEDICINA_NUCLEAR
-    @OneToOne(() => CumplimientoMedNuclearEntity, cumplimiento => cumplimiento.criterio_med_nuclear)
+    @OneToMany(() => CumplimientoMedNuclearEntity, cumplimiento => cumplimiento.criterio_med_nuclear)
     cumplimiento: CumplimientoMedNuclearEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS MEDICINA_NUCLEAR - SECCION
-    @ManyToOne(type => SeccionEntity, seccion => seccion.seccion_med_nuclear)
+    @ManyToMany(type => SeccionEntity, seccion => seccion.seccion_med_nuclear)
     med_nuclear_seccion: SeccionEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS MEDICINA_NUCLEAR - APARTADO

@@ -29,8 +29,8 @@ export class CumplimientoGestionPretransfusionalEntity {
     cump_gestpre_fecha_limite: string;
     
 
-    @OneToOne(() => CriterioGestionPretransfusionalEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO DIALISIS
+    @ManyToOne(type => CriterioGestionPretransfusionalEntity, criterio => criterio.cumplimiento)
     criterio_gest_pretransfusional: CriterioGestionPretransfusionalEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

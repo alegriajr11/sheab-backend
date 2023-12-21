@@ -29,8 +29,8 @@ export class CriterioDialisisEntity {
     @ManyToOne(type => DialisisEntity, dialisis => dialisis.criterios_dialisis)
     dialisis: DialisisEntity;
 
-    //RELACION ONTE TO ONE CRITERIOS_DIALISIS A CUMPLIMIENTO DIALISIS
-    @OneToOne(() => CumplimientoDialisisEntity, cumplimiento => cumplimiento.criterio_dialisis)
+    //RELACION ONTE TO ONE criterio_diagnost_vascular A cumplimiento_diagnostico_vascular
+    @OneToMany(() => CumplimientoDialisisEntity, cumplimiento => cumplimiento.criterio_dial_vascular)
     cumplimiento: CumplimientoDialisisEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS_DIALISIS - SECCION

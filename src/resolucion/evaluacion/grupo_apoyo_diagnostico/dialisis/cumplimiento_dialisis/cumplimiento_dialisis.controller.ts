@@ -6,7 +6,7 @@ import { CumplimientoDialisisDto } from 'src/resolucion/dtos/evaluacion_dtos/gru
 @Controller('cumplimiento-dialisis')
 export class CumplimientoDialisisController {
     constructor(private readonly cumplimientoDialisisService: CumplimientoDialisisService) { }
-    
+
     //OBTENER UN CUMPLIMIENTO
     //@UseGuards(JwtAuthGuard)
     @Get(':id')
@@ -16,12 +16,12 @@ export class CumplimientoDialisisController {
 
 
     //CREAR CUMPLIMIENTO
-   // @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe({ whitelist: true }))
     @Post('create')
-    async create( @Query('cridial_id') cridial_id: number,
-    @Query('eva_id') eva_id: number, @Body() dto: CumplimientoDialisisDto) {
-        return this.cumplimientoDialisisService.create(cridial_id,eva_id, dto);
+    async create(@Query('cridial_id') cridial_id: number,
+        @Query('eva_id') eva_id: number, @Body() dto: CumplimientoDialisisDto) {
+        return this.cumplimientoDialisisService.create(cridial_id, eva_id, dto);
     }
 
     //ELIMINAR CUMPLIMIENTO
@@ -37,5 +37,12 @@ export class CumplimientoDialisisController {
     @Put(':id')
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoDialisisDto) {
         return await this.cumplimientoDialisisService.updateCapacidad(id, dto);
+    }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoDialisisService.getCumplimientoForEva(id)
     }
 }

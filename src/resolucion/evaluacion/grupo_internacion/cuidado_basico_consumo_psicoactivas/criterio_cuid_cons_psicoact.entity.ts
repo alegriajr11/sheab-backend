@@ -30,7 +30,7 @@ export class CriterioConsumoPsicoactivasEntity {
     cons_psicoactivas: ConsumoPsicoactivasEntity;
 
     //RELACION ONTE TO ONE CRITERIOS CUIDADO_BASICO_CONSUMO_PSICOACTIVAS A CUMPLIMIENTO CUIDADO_BASICO_CONSUMO_PSICOACTIVAS
-    @OneToOne(() => CumplimientoConsPsicoactivasEntity, cumplimiento => cumplimiento.criterio_cons_psico)
+    @OneToMany(() => CumplimientoConsPsicoactivasEntity, cumplimiento => cumplimiento.criterio_cons_psico)
     cumplimiento: CumplimientoConsPsicoactivasEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS CUIDADO_BASICO_CONSUMO_PSICOACTIVAS- SECCION

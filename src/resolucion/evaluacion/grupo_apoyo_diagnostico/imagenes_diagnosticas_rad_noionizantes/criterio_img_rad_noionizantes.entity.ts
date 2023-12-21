@@ -30,7 +30,7 @@ export class CriterioImgRadNoIonizantesEntity {
     imgrad_noionizante: ImgRadNoIonizantesEntity;
 
     //RELACION ONTE TO ONE CRITERIOS_IMGIONIZANTES A CUMPLIMIENTO IMGIONIZANTES
-    @OneToOne(() => CumplimientoImgRadNoIonizanteEntity, cumplimiento => cumplimiento.criterio_img_rad_noion)
+    @OneToMany(() => CumplimientoImgRadNoIonizanteEntity, cumplimiento => cumplimiento.criterio_img_rad_noion)
     cumplimiento: CumplimientoImgRadNoIonizanteEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS IMGNOIONIZANTES - SECCION

@@ -31,7 +31,7 @@ export class CriterioLabUterinaEntity {
     lab_cit_uterina: LabCitologiaUterinaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS_IMGIONIZANTES A CUMPLIMIENTO IMGIONIZANTES
-    @OneToOne(() => CumplimientoLabUterinaEntity, cumplimiento => cumplimiento.criterio_lab_uterina)
+    @OneToMany(() => CumplimientoLabUterinaEntity, cumplimiento => cumplimiento.criterio_lab_uterina)
     cumplimiento: CumplimientoLabUterinaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS LAB CITOLOGIA UTERINA - SECCION

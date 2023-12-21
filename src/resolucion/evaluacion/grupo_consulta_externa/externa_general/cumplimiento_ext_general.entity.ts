@@ -25,9 +25,8 @@ export class CumplimientoExternaGeneralEntity {
     cump_extg_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioExternaGeneralEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioExternaGeneralEntity, criterio => criterio.cumplimiento)
     criterio_externa_general: CriterioExternaGeneralEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

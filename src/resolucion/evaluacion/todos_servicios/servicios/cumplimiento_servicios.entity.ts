@@ -19,8 +19,8 @@ export class CumplimientoServiciosEntity {
     cumps_hallazgo: string;
 
 
-    @ManyToOne(() => Criterio_servicios)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => Criterio_servicios, criterio => criterio.cumplimiento)
     criterio_servicios: Criterio_servicios
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-TODOS-SERVICIOS

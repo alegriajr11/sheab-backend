@@ -31,7 +31,7 @@ export class CriterioHospitalizacionEntity {
     hospitalizacion: HospitalizacionEntity;
 
     //RELACION ONTE TO ONE CRITERIOS HOSPITALIZACION A CUMPLIMIENTO HOSPITALIZACION
-    @OneToOne(() => CumplimientoHospitalizacionEntity, cumplimiento => cumplimiento.criterio_hospitalizacion)
+    @OneToMany(() => CumplimientoHospitalizacionEntity, cumplimiento => cumplimiento.criterio_hospitalizacion)
     cumplimiento: CumplimientoHospitalizacionEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  HOSPITALIZACION - SECCION

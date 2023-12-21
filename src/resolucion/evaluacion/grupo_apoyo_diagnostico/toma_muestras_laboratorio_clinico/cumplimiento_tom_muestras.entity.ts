@@ -31,8 +31,8 @@ export class CumplimientoMuestLabClinicoEntity {
     cump_mues_clin_fecha_limite: string;
     
 
-    @OneToOne(() => CriterioMuestraLabClinicoEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioMuestraLabClinicoEntity, criterio => criterio.cumplimiento)
     criterio_muest_lab_clinico: CriterioMuestraLabClinicoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

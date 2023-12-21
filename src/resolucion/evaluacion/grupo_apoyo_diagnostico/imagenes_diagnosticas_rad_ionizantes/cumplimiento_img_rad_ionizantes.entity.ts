@@ -29,10 +29,9 @@ export class CumplimientoImgRadIonizanteEntity {
 
     @Column({ type: 'date', nullable: false, unique: false })
     cump_imgion_fecha_limite: string;
-    
 
-    @OneToOne(() => CriterioImgRadIonizantesEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioImgRadIonizantesEntity, criterio => criterio.cumplimiento)
     criterio_img_rad_ion: CriterioImgRadIonizantesEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

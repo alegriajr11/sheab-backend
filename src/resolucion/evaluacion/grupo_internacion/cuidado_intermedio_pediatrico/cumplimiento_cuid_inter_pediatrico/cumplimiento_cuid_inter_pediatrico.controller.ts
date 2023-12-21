@@ -39,4 +39,11 @@ export class CumplimientoCuidInterPediatricoController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoCuidIntermPediatricoDto) {
         return await this.cumplimientoCuidInterPediatricoService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoCuidInterPediatricoService.getCumplimientoForEva(id)
+    }
 }

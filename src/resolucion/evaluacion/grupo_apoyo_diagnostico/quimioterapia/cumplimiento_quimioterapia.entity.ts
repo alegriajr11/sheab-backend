@@ -31,9 +31,8 @@ export class CumplimientoQuimioterapiaEntity {
     cump_quim_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioQuimioterapiaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioQuimioterapiaEntity, criterio => criterio.cumplimiento)
     criterio_quimioterapia: CriterioQuimioterapiaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

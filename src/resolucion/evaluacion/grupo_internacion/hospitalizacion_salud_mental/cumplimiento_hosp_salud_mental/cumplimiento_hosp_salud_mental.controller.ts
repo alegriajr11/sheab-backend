@@ -39,4 +39,11 @@ export class CumplimientoHospSaludMentalController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoHospitalizacionMentalDto) {
         return await this.cumplimientoHospSaludMentalService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoHospSaludMentalService.getCumplimientoForEva(id)
+    }
 }

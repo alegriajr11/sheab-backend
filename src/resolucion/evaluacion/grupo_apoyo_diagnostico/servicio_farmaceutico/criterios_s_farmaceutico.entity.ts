@@ -30,7 +30,7 @@ export class CriterioSerFarmaceuticoEntity {
     ser_farmaceutico: ServFarmaceuticoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS SERVICIO_FARMACEUTICO A CUMPLIMIENTO SERVICIO_FARMACEUTICO
-    @OneToOne(() => CumplimientoSerFarmaceuticoEntity, cumplimiento => cumplimiento.criterio_ser_farmaceutico)
+    @OneToMany(() => CumplimientoSerFarmaceuticoEntity, cumplimiento => cumplimiento.criterio_ser_farmaceutico)
     cumplimiento: CumplimientoSerFarmaceuticoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS SERVICIO_FARMACEUTICO - SECCION

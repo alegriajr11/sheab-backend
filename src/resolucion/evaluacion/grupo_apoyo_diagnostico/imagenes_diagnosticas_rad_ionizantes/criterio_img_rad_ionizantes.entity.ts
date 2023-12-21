@@ -29,8 +29,8 @@ export class CriterioImgRadIonizantesEntity {
     @ManyToOne(type => ImgRadIonizantesEntity, img_ionizante => img_ionizante.criterios_img_ionizantes)
     imgrad_ionizante: ImgRadIonizantesEntity;
 
-    //RELACION ONTE TO ONE CRITERIOS_IMGIONIZANTES A CUMPLIMIENTO IMGIONIZANTES
-    @OneToOne(() => CumplimientoImgRadIonizanteEntity, cumplimiento => cumplimiento.criterio_img_rad_ion)
+    //RELACION ONE TO MANY CRITERIOS_IMGIONIZANTES A CUMPLIMIENTO IMGIONIZANTES
+    @OneToMany(() => CumplimientoImgRadIonizanteEntity, cumplimiento => cumplimiento.criterio_img_rad_ion)
     cumplimiento: CumplimientoImgRadIonizanteEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS GESTION IMGIONIZANTES - SECCION

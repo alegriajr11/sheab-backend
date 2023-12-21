@@ -31,9 +31,8 @@ export class CumplimientoHospitalizacionParcialEntity {
     cump_hosp_parc_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioHospitalizacionParcialEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioHospitalizacionParcialEntity, criterio => criterio.cumplimiento)
     criterio_hospitalizacion_parcial: CriterioHospitalizacionParcialEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

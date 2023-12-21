@@ -30,7 +30,7 @@ export class CriterioSaludTrabajoEntity {
     salud_trabajo: SaludTrabajoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS SEGURIDAD Y SALUD EN EL TRABAJO A CUMPLIMIENTO SEGURIDAD Y SALUD EN EL TRABAJO
-    @OneToOne(() => CumplimientoSaludTrabajoEntity, cumplimiento => cumplimiento.criterio_salud_trabajo)
+    @OneToMany(() => CumplimientoSaludTrabajoEntity, cumplimiento => cumplimiento.criterio_salud_trabajo)
     cumplimiento: CumplimientoSaludTrabajoEntity;
 
 

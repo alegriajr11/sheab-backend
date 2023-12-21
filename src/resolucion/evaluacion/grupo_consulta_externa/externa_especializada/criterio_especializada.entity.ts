@@ -30,7 +30,7 @@ export class CriterioEspecializadaEntity {
     externa_especializada: ExternaEspecializadaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS EXTERNA_ESPECIALIZADA A CUMPLIMIENTO EXTERNA_ESPECIALIZADA
-    @OneToOne(() => CumplimientoEspecializadaEntity, cumplimiento => cumplimiento.criterio_externa_especializada)
+    @OneToMany(() => CumplimientoEspecializadaEntity, cumplimiento => cumplimiento.criterio_externa_especializada)
     cumplimiento: CumplimientoEspecializadaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS EXTERNA_ESPECIALIZADA- SECCION

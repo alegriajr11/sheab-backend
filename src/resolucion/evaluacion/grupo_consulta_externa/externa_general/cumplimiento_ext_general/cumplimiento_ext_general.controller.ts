@@ -39,4 +39,11 @@ export class CumplimientoExtGeneralController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoExternaGeneralDto) {
         return await this.cumplimientoExtGeneralService.updateCapacidad(id, dto);
     }
+
+     //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoExtGeneralService.getCumplimientoForEva(id)
+    }
 }

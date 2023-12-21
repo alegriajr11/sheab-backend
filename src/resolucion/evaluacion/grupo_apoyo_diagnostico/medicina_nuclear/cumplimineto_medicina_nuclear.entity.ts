@@ -31,8 +31,8 @@ export class CumplimientoMedNuclearEntity {
     cump_med_nucl_fecha_limite: string;
     
 
-    @OneToOne(() => CriterioMedicinaNuclearEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioMedicinaNuclearEntity, criterio => criterio.cumplimiento)
     criterio_med_nuclear: CriterioMedicinaNuclearEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

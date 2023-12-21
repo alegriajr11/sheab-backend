@@ -29,10 +29,8 @@ export class CumplimientoTranspAsistencialEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_trans_asis_fecha_limite: string;
 
-    
-
-    @OneToOne(() => CriterioTranspAsistencialEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioTranspAsistencialEntity, criterio => criterio.cumplimiento)
     criterio_transp_asistencial: CriterioTranspAsistencialEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

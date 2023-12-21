@@ -30,7 +30,7 @@ export class CriterioVacunacionEntity {
     vacunacion: VacunacionEntity;
 
     //RELACION ONTE TO ONE CRITERIOS VACUNACION A CUMPLIMIENTO VACUNACION
-    @OneToOne(() => CumplimientoVacunacionEntity, cumplimiento => cumplimiento.criterio_vacunacion)
+    @OneToMany(() => CumplimientoVacunacionEntity, cumplimiento => cumplimiento.criterio_vacunacion)
     cumplimiento: CumplimientoVacunacionEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  VACUNACION - SECCION

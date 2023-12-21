@@ -39,4 +39,11 @@ export class CumplimientoGestionPretransController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoGestionPretransfusionalDto) {
         return await this.cumplimientoGestionPretransService.updateCapacidad(id, dto);
     }
+
+     //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoGestionPretransService.getCumplimientoForEva(id)
+    }
 }

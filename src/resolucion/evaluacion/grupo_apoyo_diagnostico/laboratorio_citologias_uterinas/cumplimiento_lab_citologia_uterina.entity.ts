@@ -32,8 +32,8 @@ export class CumplimientoLabUterinaEntity {
 
 
 
-    @OneToOne(() => CriterioLabUterinaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioLabUterinaEntity, criterio => criterio.cumplimiento)
     criterio_lab_uterina: CriterioLabUterinaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

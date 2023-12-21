@@ -30,7 +30,7 @@ export class CriterioPatologiaEntity {
     patologia: PatologiaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS PATOLOGIA A CUMPLIMIENTO PATOLOGIA
-    @OneToOne(() => CumplimientoPatologiaEntity, cumplimiento => cumplimiento.criterio_patologia)
+    @OneToMany(() => CumplimientoPatologiaEntity, cumplimiento => cumplimiento.criterio_patologia)
     cumplimiento: CumplimientoPatologiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS PATOLOGIA- SECCION

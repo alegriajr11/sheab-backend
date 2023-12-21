@@ -34,7 +34,7 @@ export class CriterioPrehospitalariaEntity {
     cumplimiento: CumplimientoPrehospitalariaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS PREHOSPITALARIA- SECCION
-    @ManyToOne(type => SeccionEntity, seccion => seccion.seccion_prehospi)
+    @ManyToMany(type => SeccionEntity, seccion => seccion.seccion_prehospi)
     prehospi_seccion: SeccionEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS PREHOSPITALARIA- APARTADO

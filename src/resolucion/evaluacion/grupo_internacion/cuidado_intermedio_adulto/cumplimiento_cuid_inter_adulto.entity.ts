@@ -30,11 +30,11 @@ export class CumplimientoCuidInterAdultoEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_inter_adulto_fecha_limite: string;
 
-    
 
-    @OneToOne(() => CriterioCuidIntermAdultoEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCuidIntermAdultoEntity, criterio => criterio.cumplimiento)
     criterio_cuid_inter_adult: CriterioCuidIntermAdultoEntity
+
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC
     @ManyToOne(type => EvaluacionResVerificacionEntity, eva_res => eva_res.eva_inter_adul_cumplimiento)

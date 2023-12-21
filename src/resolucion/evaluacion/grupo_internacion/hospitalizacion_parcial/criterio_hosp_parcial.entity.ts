@@ -29,7 +29,7 @@ export class CriterioHospitalizacionParcialEntity {
     hospitalizacion_parcial: HospitalizacionParcialEntity;
 
     //RELACION ONTE TO ONE CRITERIOS HOSPITALIZACION_PARCIAL A CUMPLIMIENTO HOSPITALIZACION_PARCIAL
-    @OneToOne(() => CumplimientoHospitalizacionParcialEntity, cumplimiento => cumplimiento.criterio_hospitalizacion_parcial)
+    @OneToMany(() => CumplimientoHospitalizacionParcialEntity, cumplimiento => cumplimiento.criterio_hospitalizacion_parcial)
     cumplimiento: CumplimientoHospitalizacionParcialEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  HOSPITALIZACION_PARCIAL - SECCION

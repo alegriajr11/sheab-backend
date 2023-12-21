@@ -30,9 +30,9 @@ export class CumplimientoDialisisEntity {
     cump_dial_fecha_limite: string;
     
 
-    @OneToOne(() => CriterioDialisisEntity)
-    @JoinColumn()
-    criterio_dialisis: CriterioDialisisEntity
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO DIALISIS
+    @ManyToOne(type => CriterioDialisisEntity, criterio => criterio.cumplimiento)
+    criterio_dial_vascular: CriterioDialisisEntity
 
     
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

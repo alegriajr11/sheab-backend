@@ -5,11 +5,6 @@ import { CriterioHermoIntervenEntity } from "./criterio_hemo_inter.entity";
 import { EvaluacionResVerificacionEntity } from "../../evaluacion_resolucion_verificacion/evaluacion_res.entity";
 
 
-
-// import { CumplimientoEstandarSicEntity } from "./cumplimientoestandar.entity";
-
-
-
 @Entity({ name: 'cumplimiento_hermo_interven' })
 export class CumplimientoHermoIntervenEntity {
     @PrimaryGeneratedColumn('increment')
@@ -30,9 +25,9 @@ export class CumplimientoHermoIntervenEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_herminter_fecha_limite: string;
 
-    
-    @OneToOne(() => CriterioHermoIntervenEntity)
-    @JoinColumn()
+
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioHermoIntervenEntity, criterio => criterio.cumplimiento)
     criterio_hermo_interven: CriterioHermoIntervenEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

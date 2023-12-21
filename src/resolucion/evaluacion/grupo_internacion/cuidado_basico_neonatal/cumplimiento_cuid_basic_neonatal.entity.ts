@@ -30,9 +30,8 @@ export class CumplimientoCuidBasNeonatalEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_cui_neona_fecha_limite: string;
 
-
-    @OneToOne(() => CriterioCuidBasNeonatalEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCuidBasNeonatalEntity, criterio => criterio.cumplimiento)
     criterio_cuid_bas_neonatal: CriterioCuidBasNeonatalEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

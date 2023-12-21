@@ -30,7 +30,7 @@ export class CriterioTranspAsistencialEntity {
     transp_asistencial: TranspAsistencialEntity;
 
     //RELACION ONTE TO ONE CRITERIOS TRANSPORTE_ASISTENCIAL A CUMPLIMIENTO TRANSPORTE_ASISTENCIAL
-    @OneToOne(() => CumplimientoTranspAsistencialEntity, cumplimiento => cumplimiento.criterio_transp_asistencial)
+    @OneToMany(() => CumplimientoTranspAsistencialEntity, cumplimiento => cumplimiento.criterio_transp_asistencial)
     cumplimiento: CumplimientoTranspAsistencialEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS TRANSPORTE_ASISTENCIAL- SECCION

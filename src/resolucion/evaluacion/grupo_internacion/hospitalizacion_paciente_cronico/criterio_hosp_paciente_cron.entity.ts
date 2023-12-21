@@ -30,7 +30,7 @@ export class CriterioHospitCronicoEntity {
     hospit_cronico: HospitalizacionCronicoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS HOSPITALIZACION_CRONICO A CUMPLIMIENTO HOSPITALIZACION_CRONICO
-    @OneToOne(() => CumplimientoHospitCronicoEntity, cumplimiento => cumplimiento.criterio_hospit_cronico)
+    @OneToMany(() => CumplimientoHospitCronicoEntity, cumplimiento => cumplimiento.criterio_hospit_cronico)
     cumplimiento: CumplimientoHospitCronicoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  HOSPITALIZACION_CRONICO - SECCION

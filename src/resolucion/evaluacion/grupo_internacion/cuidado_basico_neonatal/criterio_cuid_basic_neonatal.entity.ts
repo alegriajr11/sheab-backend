@@ -30,7 +30,7 @@ export class CriterioCuidBasNeonatalEntity {
     cuid_bas_neonatal: CuidBasNeonatalEntity;
 
     //RELACION ONTE TO ONE CRITERIOS CUIDADO_BASICO_NEONATAL A CUMPLIMIENTO CUIDADO_BASICO_NEONATAL
-    @OneToOne(() => CumplimientoCuidBasNeonatalEntity, cumplimiento => cumplimiento.criterio_cuid_bas_neonatal)
+    @OneToMany(() => CumplimientoCuidBasNeonatalEntity, cumplimiento => cumplimiento.criterio_cuid_bas_neonatal)
     cumplimiento: CumplimientoCuidBasNeonatalEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  CUIDADO_BASICO_NEONATAL - SECCION

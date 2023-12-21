@@ -30,7 +30,7 @@ export class CriterioUrgenciasEntity {
     urgencias: UrgenciasEntity;
 
     //RELACION ONTE TO ONE CRITERIOS URGENCIAS A CUMPLIMIENTO URGENCIAS
-    @OneToOne(() => CumplimientoUrgenciasEntity, cumplimiento => cumplimiento.criterio_urgencias)
+    @OneToMany(() => CumplimientoUrgenciasEntity, cumplimiento => cumplimiento.criterio_urgencias)
     cumplimiento: CumplimientoUrgenciasEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS URGENCIASL- SECCION

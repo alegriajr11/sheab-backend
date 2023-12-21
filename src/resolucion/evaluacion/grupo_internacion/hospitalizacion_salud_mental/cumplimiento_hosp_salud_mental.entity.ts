@@ -31,9 +31,10 @@ export class CumplimientoHospitalizacionMentalEntity {
     cump_hosp_ment_fecha_limite: string;
 
 
-    @OneToOne(() => CriterioHospitalizacionMentalEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioHospitalizacionMentalEntity, criterio => criterio.cumplimiento)
     criterio_hospitalizacion_mental: CriterioHospitalizacionMentalEntity
+
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC
     @ManyToOne(type => EvaluacionResVerificacionEntity, eva_res => eva_res.eva_hospi_mental_cumplimiento)

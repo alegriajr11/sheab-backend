@@ -30,7 +30,7 @@ export class CriterioCuidIntermPediatricoEntity {
     cuid_inter_pediatrico: CuidIntermPediatricoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS CUIDADO_INTERMEDIO_PEDIATRICO A CUMPLIMIENTO CUIDADO_INTERMEDIO_PEDIATRICO
-    @OneToOne(() => CumplimientoCuidInterPediatricoEntity, cumplimiento => cumplimiento.criterio_cuid_inter_pedia)
+    @OneToMany(() => CumplimientoCuidInterPediatricoEntity, cumplimiento => cumplimiento.criterio_cuid_inter_pedia)
     cumplimiento: CumplimientoCuidInterPediatricoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  CUIDADO_INTERMEDIO_PEDIATRICO - SECCION

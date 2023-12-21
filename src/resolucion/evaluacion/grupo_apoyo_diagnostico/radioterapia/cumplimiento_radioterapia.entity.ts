@@ -30,9 +30,8 @@ export class CumplimientoRadioterapiaEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_rad_ter_fecha_limite: string;
 
-
-    @OneToOne(() => CriterioRadioterapiaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioRadioterapiaEntity, criterio => criterio.cumplimiento)
     criterio_radioterapia: CriterioRadioterapiaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

@@ -31,9 +31,8 @@ export class CumplimientoCuelloUterinoEntity {
     cump_cue_uter_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioCuelloUterinoEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCuelloUterinoEntity, criterio => criterio.cumplimiento)
     criterio_cuello_uterino: CriterioCuelloUterinoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

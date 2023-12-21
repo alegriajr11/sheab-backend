@@ -29,10 +29,10 @@ export class CumplimientoConsPsicoactivasEntity {
 
     @Column({ type: 'date', nullable: false, unique: false })
     cump_cons_psic_fecha_limite: string;
+    
 
-
-    @OneToOne(() => CriterioConsumoPsicoactivasEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioConsumoPsicoactivasEntity, criterio => criterio.cumplimiento)
     criterio_cons_psico: CriterioConsumoPsicoactivasEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

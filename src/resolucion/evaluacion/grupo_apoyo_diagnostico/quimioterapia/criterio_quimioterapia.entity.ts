@@ -30,7 +30,7 @@ export class CriterioQuimioterapiaEntity {
     quimioterapia: QuimioterapiaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS QUIMIOTERAPIA A CUMPLIMIENTO QUIMIOTERAPIA
-    @OneToOne(() => CumplimientoQuimioterapiaEntity, cumplimiento => cumplimiento.criterio_quimioterapia)
+    @OneToMany(() => CumplimientoQuimioterapiaEntity, cumplimiento => cumplimiento.criterio_quimioterapia)
     cumplimiento: CumplimientoQuimioterapiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS QUIMIOTERAPIA- SECCION

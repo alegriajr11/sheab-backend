@@ -31,9 +31,8 @@ export class CumplimientoCuidIntPediatricoEntity {
     cump_int_ped_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioCuidIntePediatricoEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCuidIntePediatricoEntity, criterio => criterio.cumplimiento)
     criterio_cuid_int_pediatrico: CriterioCuidIntePediatricoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

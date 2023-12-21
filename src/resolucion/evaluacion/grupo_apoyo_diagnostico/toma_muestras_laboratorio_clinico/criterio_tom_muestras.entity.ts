@@ -30,7 +30,7 @@ export class CriterioMuestraLabClinicoEntity {
     tom_mue_lab_clinico: MuestrasLabClinicoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS TOMA_MUESTRAS_LABORATORIO_CLINICO A CUMPLIMIENTO TOMA_MUESTRAS_LABORATORIO_CLINICO
-    @OneToOne(() => CumplimientoMuestLabClinicoEntity, cumplimiento => cumplimiento.criterio_muest_lab_clinico)
+    @OneToMany(() => CumplimientoMuestLabClinicoEntity, cumplimiento => cumplimiento.criterio_muest_lab_clinico)
     cumplimiento: CumplimientoMuestLabClinicoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS TOMA_MUESTRAS_LABORATORIO_CLINICO- SECCION

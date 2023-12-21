@@ -46,4 +46,5 @@ export class CumplimientoRadioOdontController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoRadiologiaOdontoDto) {
         return await this.cumplimientoRadioOdontService.updateCapacidad(id, dto);
     }
+
 }

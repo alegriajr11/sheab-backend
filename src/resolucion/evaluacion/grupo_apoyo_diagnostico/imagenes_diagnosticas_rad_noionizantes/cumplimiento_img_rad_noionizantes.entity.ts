@@ -31,8 +31,8 @@ export class CumplimientoImgRadNoIonizanteEntity {
     cump_img_noion_fecha_limite: string;
 
 
-    @OneToOne(() => CriterioImgRadNoIonizantesEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioImgRadNoIonizantesEntity, criterio => criterio.cumplimiento)
     criterio_img_rad_noion: CriterioImgRadNoIonizantesEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

@@ -30,7 +30,7 @@ export class CriterioLabClinicoEntity {
     lab_clinico: LabClinicoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS LABORATORIO CLINICO A CUMPLIMIENTO LABORATORIO CLINICO
-    @OneToOne(() => CumplimientoLabClinicoEntity, cumplimiento => cumplimiento.criterio_lab_clinico)
+    @OneToMany(() => CumplimientoLabClinicoEntity, cumplimiento => cumplimiento.criterio_lab_clinico)
     cumplimiento: CumplimientoLabClinicoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS LAB CLINICO - SECCION

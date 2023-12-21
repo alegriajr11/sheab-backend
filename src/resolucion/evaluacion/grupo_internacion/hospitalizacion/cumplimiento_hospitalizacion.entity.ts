@@ -30,11 +30,12 @@ export class CumplimientoHospitalizacionEntity {
 
     @Column({ type: 'date', nullable: false, unique: true })
     cump_hosp_fecha_limite: string;
+    
 
-
-    @OneToOne(() => CriterioHospitalizacionEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioHospitalizacionEntity, criterio => criterio.cumplimiento)
     criterio_hospitalizacion: CriterioHospitalizacionEntity
+
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC
     @ManyToOne(type => EvaluacionResVerificacionEntity, eva_res => eva_res.eva_hospi_cumplimiento)

@@ -30,7 +30,7 @@ export class CriterioCuelloUterinoEntity {
     cue_uterino: CuelloUterinoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS TOMA_MUESTRAS_CUELLO_UTERINO A CUMPLIMIENTO TOMA_MUESTRAS_CUELLO_UTERINO
-    @OneToOne(() => CumplimientoCuelloUterinoEntity, cumplimiento => cumplimiento.criterio_cuello_uterino)
+    @OneToMany(() => CumplimientoCuelloUterinoEntity, cumplimiento => cumplimiento.criterio_cuello_uterino)
     cumplimiento: CumplimientoCuelloUterinoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS TOMA_MUESTRAS_CUELLO_UTERINO- SECCION

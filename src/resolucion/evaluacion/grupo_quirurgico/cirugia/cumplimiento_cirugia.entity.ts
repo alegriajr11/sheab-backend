@@ -31,9 +31,9 @@ export class CumplimientoCirugiaEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_ciru_fecha_limite: string;
 
-   //relacion OneToOne de  cumplimiento a criterios cirugia  
-    @OneToOne(() => CriterioCirugiaEntity)
-    @JoinColumn()
+
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCirugiaEntity, criterio => criterio.cumplimiento)
     criterio_cirugia: CriterioCirugiaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

@@ -39,4 +39,11 @@ export class CumplimientoConsPsicoactivasController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoConsumoPsicoactivasDto) {
         return await this.cumplimientoConsPsicoactivasService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoConsPsicoactivasService.getCumplimientoForEva(id)
+    }
 }

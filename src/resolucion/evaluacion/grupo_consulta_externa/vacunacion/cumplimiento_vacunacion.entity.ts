@@ -31,9 +31,8 @@ export class CumplimientoVacunacionEntity {
     cump_vac_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioVacunacionEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioVacunacionEntity, criterio => criterio.cumplimiento)
     criterio_vacunacion: CriterioVacunacionEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

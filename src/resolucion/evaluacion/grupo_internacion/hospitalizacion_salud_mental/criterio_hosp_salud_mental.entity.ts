@@ -30,7 +30,7 @@ export class CriterioHospitalizacionMentalEntity {
     hospitalizacion_mental: HospitalizacionMentalEntity;
 
     //RELACION ONTE TO ONE CRITERIOS HOSPITALIZACION_MENTAL A CUMPLIMIENTO HOSPITALIZACION_MENTAL
-    @OneToOne(() => CumplimientoHospitalizacionMentalEntity, cumplimiento => cumplimiento.criterio_hospitalizacion_mental)
+    @OneToMany(() => CumplimientoHospitalizacionMentalEntity, cumplimiento => cumplimiento.criterio_hospitalizacion_mental)
     cumplimiento: CumplimientoHospitalizacionMentalEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  HOSPITALIZACION_MENTAL - SECCION

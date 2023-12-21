@@ -30,7 +30,7 @@ export class CriterioTerapiaEntity {
     terapia: TerapiasEntity;
 
     //RELACION ONTE TO ONE CRITERIOS TERAPIA A CUMPLIMIENTO TERAPIA
-    @OneToOne(() => CumplimientoTerapiaEntity, cumplimiento => cumplimiento.criterio_terapia)
+    @OneToMany(() => CumplimientoTerapiaEntity, cumplimiento => cumplimiento.criterio_terapia)
     cumplimiento: CumplimientoTerapiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS TERAPIA- SECCION

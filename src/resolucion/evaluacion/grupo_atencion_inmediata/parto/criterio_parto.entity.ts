@@ -30,7 +30,7 @@ export class CriterioPartoEntity {
     parto: PartoEntity;
 
     //RELACION ONTE TO ONE CRITERIOS PARTO A CUMPLIMIENTO PARTO
-    @OneToOne(() => CumplimientoPartoEntity, cumplimiento => cumplimiento.criterio_parto)
+    @OneToMany(() => CumplimientoPartoEntity, cumplimiento => cumplimiento.criterio_parto)
     cumplimiento: CumplimientoPartoEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS PARTO- SECCION

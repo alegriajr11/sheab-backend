@@ -39,4 +39,11 @@ export class CumplimientoSaludTrabajoController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoSaludTrabajoDto) {
         return await this.cumplimientoSaludTrabajoService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoSaludTrabajoService.getCumplimientoForEva(id)
+    }
 }

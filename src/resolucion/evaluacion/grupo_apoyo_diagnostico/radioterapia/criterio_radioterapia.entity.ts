@@ -30,7 +30,7 @@ export class CriterioRadioterapiaEntity {
     radioterapia: RadioterapiaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS RADIOTERAPIA A CUMPLIMIENTO RADIOTERAPIA
-    @OneToOne(() => CumplimientoRadioterapiaEntity, cumplimiento => cumplimiento.criterio_radioterapia)
+    @OneToMany(() => CumplimientoRadioterapiaEntity, cumplimiento => cumplimiento.criterio_radioterapia)
     cumplimiento: CumplimientoRadioterapiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS RADIOTERAPIA - SECCION

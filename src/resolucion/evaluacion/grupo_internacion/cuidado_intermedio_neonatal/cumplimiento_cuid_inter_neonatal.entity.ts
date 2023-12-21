@@ -31,10 +31,10 @@ export class CumplimientoCuidInterNeonatalEntity {
     cump_inter_neona_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioCuidIntermNeonatalEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioCuidIntermNeonatalEntity, criterio => criterio.cumplimiento)
     criterio_cuid_inter_neona: CriterioCuidIntermNeonatalEntity
+
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC
     @ManyToOne(type => EvaluacionResVerificacionEntity, eva_res => eva_res.eva_inter_neo_cumplimiento)

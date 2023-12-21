@@ -39,4 +39,11 @@ export class CumplimientoPatologiaController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoPatologiaDto) {
         return await this.cumplimientoPatologiaService.updateCapacidad(id, dto);
     }
+
+     //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoPatologiaService.getCumplimientoForEva(id)
+    }
 }

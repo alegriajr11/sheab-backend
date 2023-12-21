@@ -6,7 +6,7 @@ import { CumplimientoDiagnostiVascularDto } from 'src/resolucion/dtos/evaluacion
 @Controller('cumplimiento-diag-vascular')
 export class CumplimientoDiagVascularController {
     constructor(private readonly cumplimientoDiagVascularService: CumplimientoDiagVascularService) { }
-    
+
     //OBTENER un CUMPLIMIENTO
     //@UseGuards(JwtAuthGuard)
     @Get(':id')
@@ -16,12 +16,12 @@ export class CumplimientoDiagVascularController {
 
 
     //CREAR CUMPLIMIENTO
-   // @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe({ whitelist: true }))
     @Post('create')
-    async create( @Query('crivac_id') crivac_id: number,
-    @Query('eva_id') eva_id: number, @Body() dto: CumplimientoDiagnostiVascularDto) {
-        return this.cumplimientoDiagVascularService.create(crivac_id,eva_id, dto);
+    async create(@Query('crivac_id') crivac_id: number,
+        @Query('eva_id') eva_id: number, @Body() dto: CumplimientoDiagnostiVascularDto) {
+        return this.cumplimientoDiagVascularService.create(crivac_id, eva_id, dto);
     }
 
     //ELIMINAR CUMPLIMIENTO
@@ -37,5 +37,12 @@ export class CumplimientoDiagVascularController {
     @Put(':id')
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoDiagnostiVascularDto) {
         return await this.cumplimientoDiagVascularService.updateCapacidad(id, dto);
+    }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoDiagVascularService.getCumplimientoForEva(id)
     }
 }

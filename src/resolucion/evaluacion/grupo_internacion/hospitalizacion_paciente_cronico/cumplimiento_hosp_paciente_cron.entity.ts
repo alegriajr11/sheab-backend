@@ -30,10 +30,10 @@ export class CumplimientoHospitCronicoEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_hosp_cron_fecha_limite: string;
 
-    
 
-    @OneToOne(() => CriterioHospitCronicoEntity)
-    @JoinColumn()
+
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioHospitCronicoEntity, criterio => criterio.cumplimiento)
     criterio_hospit_cronico: CriterioHospitCronicoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

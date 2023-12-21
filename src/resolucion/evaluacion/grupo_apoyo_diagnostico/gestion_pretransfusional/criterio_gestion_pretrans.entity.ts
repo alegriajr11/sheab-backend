@@ -30,7 +30,7 @@ export class CriterioGestionPretransfusionalEntity {
     gestion_pretransfusional: GestionPretransfusionalEntity;
 
     //RELACION ONTE TO ONE CRITERIOS GESTION PRETANSFUNCIONAL A CUMPLIMIENTO GESTION PRETANSFUNCIONAL
-    @OneToOne(() => CumplimientoGestionPretransfusionalEntity, cumplimiento => cumplimiento.criterio_gest_pretransfusional)
+    @OneToMany(() => CumplimientoGestionPretransfusionalEntity, cumplimiento => cumplimiento.criterio_gest_pretransfusional)
     cumplimiento: CumplimientoGestionPretransfusionalEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS GESTION PRETANSFUNCIONAL - SECCION

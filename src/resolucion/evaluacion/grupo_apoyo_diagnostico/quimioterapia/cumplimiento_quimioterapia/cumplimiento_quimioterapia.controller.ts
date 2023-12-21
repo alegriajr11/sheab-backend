@@ -39,4 +39,11 @@ export class CumplimientoQuimioterapiaController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoQuimioterapiaDto) {
         return await this.cumplimientoQuimioterapiaService.updateCapacidad(id, dto);
     }
+
+     //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoQuimioterapiaService.getCumplimientoForEva(id)
+    }
 }

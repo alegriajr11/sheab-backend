@@ -31,7 +31,7 @@ export class CriterioHermoIntervenEntity {
 
 
     //RELACION ONTE TO ONE CRITERIOS HEMODINAMINA INTERVENCION A CUMPLIMIENTO HEMODINAMINA INTERVENCION
-    @OneToOne(() => CumplimientoHermoIntervenEntity, cumplimiento => cumplimiento.criterio_hermo_interven)
+    @OneToMany(() => CumplimientoHermoIntervenEntity, cumplimiento => cumplimiento.criterio_hermo_interven)
     cumplimiento: CumplimientoHermoIntervenEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS HEMODINAMINA INTERVENCION - SECCION

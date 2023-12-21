@@ -39,4 +39,11 @@ export class CumplimientoTransAsistencialController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoTranspAsistencialDto) {
         return await this.CumplimientoTransAsistencialService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.CumplimientoTransAsistencialService.getCumplimientoForEva(id)
+    }
 }

@@ -31,9 +31,8 @@ export class CumplimientoPrehospitalariaEntity {
     cump_preh_fecha_limite: string;
 
 
-
-    @OneToOne(() => CriterioPrehospitalariaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioPrehospitalariaEntity, criterio => criterio.cumplimiento)
     criterio_prehospitalaria: CriterioPrehospitalariaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

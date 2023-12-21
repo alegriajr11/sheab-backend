@@ -29,7 +29,7 @@ export class CriterioExternaGeneralEntity {
     externa_general: ExternaGeneralEntity;
 
     //RELACION ONTE TO ONE CRITERIOS EXTERNA_GENERAL A CUMPLIMIENTO EXTERNA_GENERAL
-    @OneToOne(() => CumplimientoExternaGeneralEntity, cumplimiento => cumplimiento.criterio_externa_general)
+    @OneToMany(() => CumplimientoExternaGeneralEntity, cumplimiento => cumplimiento.criterio_externa_general)
     cumplimiento: CumplimientoExternaGeneralEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  EXTERNA_GENERAL- SECCION

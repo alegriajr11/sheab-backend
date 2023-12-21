@@ -31,8 +31,8 @@ export class CumplimientoSerFarmaceuticoEntity {
     cump_ser_farm_fecha_limite: string;
 
 
-    @OneToOne(() => CriterioSerFarmaceuticoEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioSerFarmaceuticoEntity, criterio => criterio.cumplimiento)
     criterio_ser_farmaceutico: CriterioSerFarmaceuticoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

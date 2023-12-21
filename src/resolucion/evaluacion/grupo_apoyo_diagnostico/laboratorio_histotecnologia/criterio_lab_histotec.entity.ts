@@ -30,7 +30,7 @@ export class CriterioLabHistotecnologiaEntity {
     lab_histotecnologia: LabHistotecnologiaEntity;
 
     //RELACION ONTE TO ONE CRITERIOS LABORATORIO_HISTOTECNOLOGIA A CUMPLIMIENTO LABORATORIO_HISTOTECNOLOGIA
-    @OneToOne(() => CumplimientoLabHistotecnEntity, cumplimiento => cumplimiento.criterio_lab_histotecnologia)
+    @OneToMany(() => CumplimientoLabHistotecnEntity, cumplimiento => cumplimiento.criterio_lab_histotecnologia)
     cumplimiento: CumplimientoLabHistotecnEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS LABORATORIO_HISTOTECNOLOGIA- SECCION

@@ -39,4 +39,11 @@ export class CumplimientoLabCitologiaController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoLabUterinaDto) {
         return await this.cumplimientoLabCitologiaService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoLabCitologiaService.getCumplimientoForEva(id)
+    }
 }

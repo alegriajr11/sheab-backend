@@ -30,7 +30,7 @@ export class CriterioCirugiaEntity {
     cirugia: CirugiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS_CIRUGIA - CUMPLIMIENTO CIRUGIA 
-    @OneToOne(() => CumplimientoCirugiaEntity, cumplimiento => cumplimiento.criterio_cirugia)
+    @OneToMany(() => CumplimientoCirugiaEntity, cumplimiento => cumplimiento.criterio_cirugia)
     cumplimiento: CumplimientoCirugiaEntity;
 
     //Relacion MUCHOS a UNO CRITERIOS  HOSPITALIZACION_CRONICO - SECCION

@@ -28,10 +28,9 @@ export class CumplimientoSaludTrabajoEntity {
 
     @Column({ type: 'date', nullable: false, unique: false })
     cump_saltra_fecha_limite: string;
-    
-    
-    @OneToOne(() => CriterioSaludTrabajoEntity)
-    @JoinColumn()
+
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioSaludTrabajoEntity, criterio => criterio.cumplimiento)
     criterio_salud_trabajo: CriterioSaludTrabajoEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

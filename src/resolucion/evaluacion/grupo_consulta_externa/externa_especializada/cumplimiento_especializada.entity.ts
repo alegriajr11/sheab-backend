@@ -27,9 +27,8 @@ export class CumplimientoEspecializadaEntity {
     @Column({ type: 'date', nullable: false, unique: false })
     cump_exte_fecha_limite: string;
 
-    // RELACION UNO A UNO ENTRE CUMPLIMIENTO Y CRITERIO
-    @OneToOne(() => CriterioEspecializadaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioEspecializadaEntity, criterio => criterio.cumplimiento)
     criterio_externa_especializada: CriterioEspecializadaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-SIC

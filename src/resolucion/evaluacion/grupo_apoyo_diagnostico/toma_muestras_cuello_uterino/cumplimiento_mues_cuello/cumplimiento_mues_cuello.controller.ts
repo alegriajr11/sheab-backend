@@ -40,4 +40,11 @@ export class CumplimientoMuesCuelloController {
     async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoCuelloUterinoDto) {
         return await this.cumplimientoMuesCuelloService.updateCapacidad(id, dto);
     }
+
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    // @UseGuards(JwtAuthGuard)
+    @Get('cumplimientos/evaluacion/:id')
+    async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
+        return await this.cumplimientoMuesCuelloService.getCumplimientoForEva(id)
+    }
 }

@@ -31,8 +31,8 @@ export class CumplimientoLabHistotecnEntity {
     cump_labhistot_fecha_limite: string;
 
 
-    @OneToOne(() => CriterioLabHistotecnologiaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioLabHistotecnologiaEntity, criterio => criterio.cumplimiento)
     criterio_lab_histotecnologia: CriterioLabHistotecnologiaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES

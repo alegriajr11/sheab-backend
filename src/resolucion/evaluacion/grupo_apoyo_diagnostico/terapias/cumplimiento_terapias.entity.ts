@@ -30,8 +30,8 @@ export class CumplimientoTerapiaEntity {
     cump_ter_fecha_limite: string;
 
 
-    @OneToOne(() => CriterioTerapiaEntity)
-    @JoinColumn()
+    //Relacion Muchos a CUMPLIMIENTO - CRITERIO 
+    @ManyToOne(type => CriterioTerapiaEntity, criterio => criterio.cumplimiento)
     criterio_terapia: CriterioTerapiaEntity
 
     //Relacion Muchos a CUMPLIMIENTO - EVALUACION-RES
