@@ -18,10 +18,9 @@ export class CumplimientoDiagVascularController {
     //CREAR CUMPLIMIENTO
     // @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe({ whitelist: true }))
-    @Post('create')
-    async create(@Query('crivac_id') crivac_id: number,
-        @Query('eva_id') eva_id: number, @Body() dto: CumplimientoDiagnostiVascularDto) {
-        return this.cumplimientoDiagVascularService.create(crivac_id, eva_id, dto);
+    @Post()
+    async create(@Body() dto: CumplimientoDiagnostiVascularDto) {
+        return this.cumplimientoDiagVascularService.create(dto);
     }
 
     //ELIMINAR CUMPLIMIENTO

@@ -9,11 +9,12 @@ export class CumplimientoTodosServiciosController {
 
     constructor(private readonly cumplimientoTodosServiciosService: CumplimientoTodosServiciosService) { }
 
-    //OBTENER UN CUMPLIMIENTO
+    //OBTENER UN CUMPLIMIENTO POR ID CRITERIO y ID EVALUACION
     //@UseGuards(JwtAuthGuard)
-    @Get(':id')
-    async getOneCriterio(@Param('id', ParseIntPipe) id: number) {
-        return await this.cumplimientoTodosServiciosService.findById(id)
+    @Get()
+    async getOneCriterioEvaluacion(@Query('cris_id') cris_id: number,
+        @Query('eva_id') eva_id: number) {
+        return await this.cumplimientoTodosServiciosService.getCumplimientoCriterioByEvaluacion(cris_id, eva_id)
     }
 
 
@@ -37,13 +38,14 @@ export class CumplimientoTodosServiciosController {
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe({ whitelist: true, transformOptions: { enableImplicitConversion: true } }))
     @Put(':id')
-    async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CumplimientoServiciosDto) {
-        return await this.cumplimientoTodosServiciosService.updateCumplimiento(id, dto);
+    async update(@Param('id', ParseIntPipe) id: number, @Body() payloads: { dto: CumplimientoServiciosDto, tokenDto: TokenDto}) {
+        const { dto, tokenDto } = payloads;
+        return await this.cumplimientoTodosServiciosService.updateCumplimiento(id, payloads);
     }
 
-     //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
+    //OBTENER LOS CUMPLIMIENTOS POR EVALUACION
     // @UseGuards(JwtAuthGuard)
-    @Get('cumplimientos/evaluacion/:id')
+    @Get('/cumplimientos/evaluacion/:id')
     async getCumplimientoForEva(@Param('id', ParseIntPipe) id: number) {
         return await this.cumplimientoTodosServiciosService.getCumplimientoForEva(id)
     }

@@ -55,7 +55,7 @@ export class CumplimientoDialisisService {
         const cumplimiento = this.cumplimientoDialisisRepository.create(dto)
 
         //ASIGNAMOS EL criterio AL cumplimiento
-        cumplimiento.criterio_dialisis = criterio
+        cumplimiento.criterio_dial_vascular = criterio
 
         //ASIGNAMOS EL evaluacion AL cumplimiento
         cumplimiento.cump_eva_dial = evaluacion

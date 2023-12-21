@@ -15,11 +15,11 @@ export class ServicioController {
     }
 
     //OBTENER SERVICIO  POR GRUPO EVALUACION
-    @UseGuards(JwtAuthGuard)
-    @Get(':id')
-    async getOneCriterio(@Param('id', ParseIntPipe) id: number) {
-        return await this.servicioService.getServicioxGrupo(id)
-    }
+    // @UseGuards(JwtAuthGuard)
+    // @Get(':id')
+    // async getOneCriterio(@Param('id', ParseIntPipe) id: number) {
+    //     return await this.servicioService.getServicioxGrupo(id)
+    // }
 
     //CREAR EVALUACION
     @Post()

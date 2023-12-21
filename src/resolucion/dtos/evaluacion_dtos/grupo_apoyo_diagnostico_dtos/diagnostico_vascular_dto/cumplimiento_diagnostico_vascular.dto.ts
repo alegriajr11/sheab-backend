@@ -1,3 +1,4 @@
+import { IsNumber } from "class-validator";
 import { IsNotBlank } from "src/decorators/is-not-blank.decorator";
 
 export class CumplimientoDiagnostiVascularDto {
@@ -17,9 +18,9 @@ export class CumplimientoDiagnostiVascularDto {
     @IsNotBlank()
     cump_diagv_fecha_limite: string;
 
-    // @IsNumber()
-    // cri_diag_vas_id: number
+    @IsNumber()
+    cri_diag_vas_id: number
 
-    // @IsNumber()
-    // eva_res_id: number
+    @IsNumber()
+    eva_res_id: number
 }

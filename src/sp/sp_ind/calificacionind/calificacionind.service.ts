@@ -268,7 +268,6 @@ export class CalificacionindService {
 
             return new MessageDto(`La calificacion ha sido Actualizada`);
         } catch (error) {
-            // Aquí puedes manejar el error como desees, por ejemplo, registrarlo o lanzar una excepción personalizada.
             throw error;
         }
     }

@@ -45,11 +45,11 @@ export class CumplimientoDiagVascularService {
 
 
     //METODO CREAR CUMPLIMIENTO
-    async create(crivac_id: number, eva_id: number, dto: CumplimientoDiagnostiVascularDto): Promise<any> {
-        const criterio = await this.criterioDiagnostVascularRepository.findOne({ where: { cri_apoyo_id: crivac_id } });
+    async create(dto: CumplimientoDiagnostiVascularDto): Promise<any> {
+        const criterio = await this.criterioDiagnostVascularRepository.findOne({ where: { crivac_id : dto.cri_diag_vas_id } });
         if (!criterio) throw new InternalServerErrorException(new MessageDto('El criterio no ha sido creado'))
 
-        const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: eva_id } });
+        const evaluacion = await this.evaluacionResRepository.findOne({ where: { eva_id: dto.eva_res_id } });
         if (!evaluacion) throw new InternalServerErrorException(new MessageDto('La evaluacion no ha sido creada'))
 
         //CREAMOS EL DTO PARA TRANSFERIR LOS DATOS
